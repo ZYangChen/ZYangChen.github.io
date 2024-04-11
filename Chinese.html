@@ -118,6 +118,7 @@
                 <button class="hidden" count="0"><div class="navicon"></div></button>
                 <ul class="visible-links">
                     <li class="masthead__menu-item"><a href="">主页</a></li>
+                    <li class="masthead__menu-item"><a href="#publications">代表作</a></li>
                     <li class="masthead__menu-item"><a href="#education">学历</a></li>
                     <li class="masthead__menu-item"><a href="#visitors">访客</a></li>
                 </ul>
@@ -156,6 +157,56 @@
             
 
             <div>
+                <h2 id="publications">代表作 📖</h2>
+            <div>
+                <article class="archive__item" itemscope="" itemtype="http://schema.org/CreativeWork">
+                    <div class="publication"> 
+                        <div class="left" id="mocha"> 
+                            <img src="img/MoCha.gif" width="700" style="box-shadow: 4px 4px 8px #888">
+                        </div>
+                        <div class="right">
+                            <h3><a href="https://github.com/ZYangChen/MoCha-Stereo">
+                                MoCha-Stereo: Motif Channel Attention Network for Stereo Matching (抹茶算法)
+                            </a></h3>                                                        
+                            <a class="author" href="https://orcid.org/0000-0002-9361-0240"><strong>陈子扬</strong>†</a>,
+                            <a class="author" href="https://orcid.org/0000-0002-4121-2742">龙伟†</a>,
+                            <a class="author" href="https://orcid.org/0009-0002-4212-5023">姚和†</a>,
+                            <a class="author" href="http://cs.gzu.edu.cn/2021/1210/c17588a163831/page.htm">张永军✉</a>,
+                            <a class="author" href="https://teacher.nwpu.edu.cn/wangbingshu.html">王兵书</a>,
+                            <a class="author" href="http://cs.gzu.edu.cn/2021/1210/c17588a163794/page.htm">秦永彬</a>,
+                            <a class="author" href="https://faculty.csu.edu.cn/jiawu/zh_CN/index.htm">吴嘉</a>
+                            <p class="venue">
+                            📕<a href="https://cvpr.thecvf.com/Conferences/2024">IEEE Conference on Computer Vision and Pattern Recognition (<font color="red">CVPR</font>) 2024</a><br>
+                             💡CCF-A 💡H5-index: 299 (计算机视觉领域排名<font color="red">第1</font>)
+                            </p>
+                            <div class="btn-links">
+                                <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://arxiv.org/pdf/2404.06842.pdf" target="_blank" rel="noopener">
+                                    论文
+                                </a>
+                                <a id="chinese2025" class="btn btn-outline-primary btn-page-header btn-sm" target="_blank" rel="noopener">
+                                    中文
+                                </a> 
+                                <a href="./manuscript/mocha.txt" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal" data-filename="">
+                                    引用
+                                </a>
+                                <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/ZYangChen/MoCha-Stereo" target="_blank" rel="noopener">
+                                    代码
+                                </a>
+                                <img src="https://img.shields.io/github/stars/ZYangChen/MoCha-Stereo?style=social">
+                            </div>
+                            <script>
+                                // 获取按钮元素
+                                var chineseButton = document.getElementById('chinese2025');
+                            
+                                // 添加点击事件
+                                chineseButton.addEventListener('click', function() {
+                                    // 显示提示弹窗
+                                    alert("抱歉!中文版将在2025年公开，因为我怕毕业论文被查重");
+                                });
+                            </script> 
+                        </div> 
+                    </div>
+                </article>
                 <h2 id="education">学历 👨‍🎓</h2>
                 <dl>
                     <span>
@@ -191,7 +242,7 @@
                 </div>
                     <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5u5v36uynno&amp;m=6&amp;c=00fff6&amp;cr1=ffc000&amp;f=arial&amp;l=0" async="async"></script>
                 </div></section>
-                <footer class="page__meta"><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-27">Apr. 08, 2024</time></p></footer>
+                <footer class="page__meta"><p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-27">Apr. 11, 2024</time></p></footer>
             </div>    
         </div>
     </article>

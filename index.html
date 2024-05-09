@@ -70,9 +70,23 @@
       tmpInput.select();
       document.execCommand("cut"); // copy
       tmpInput.remove();
-      alert("Copy Succeed! This is ZiyangChen's email address!" + "成功复制陈子扬的电子邮件地址！");
+      alert("Copy Succeed! This is ZiyangChen's email address!" + "成功复制陈子扬的电子邮箱地址！");
     }
 </script>
+
+<script>
+    copyInnerTextOfCell = (event2) => {
+      let innerText = event.target.innerText;
+      var tmpInput = document.createElement("input");
+      document.body.appendChild(tmpInput);
+      tmpInput.value = "ziyangchen@ieee.org";
+      tmpInput.select();
+      document.execCommand("cut"); // copy
+      tmpInput.remove();
+      alert("Copy Succeed! This is ZiyangChen's IEEE email address!" + "成功复制陈子扬的IEEE电子邮箱地址！");
+    }
+</script>
+
 <!--实现点击展开功能-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -377,7 +391,7 @@
                 <h2 id="social">Social Service 👨‍💼</h2>  
                 <ul>
                     <li>Reviewer of Knowledge-Based Systems, Electronics Letters</li>
-                    <li>Student Member of <a href="https://ieeexplore.ieee.org/Xplore/home.jsp">IEEE</a> 📧 ziyangchen@ieee.org</li>                    
+                    <li>Student Member of <a href="https://ieeexplore.ieee.org/Xplore/home.jsp">IEEE</a> <a onclick="copyInnerTextOfCell(event2)">📧 ziyangchen@ieee.org</a></li>                    
                 </ul>   
                             
                 <h2 id="visitors">Visitors 🌏</h2>                

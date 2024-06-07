@@ -1,0 +1,1418 @@
+//enormous file that has all of the javascript that makes the eval page work
+
+//first a bunch of global variables that let us know how to update various things
+
+//currentDocument has to do with the popout button. When it is popped currentDocuemnt is the popout. Otherwise it's the page's document.
+var currentDocument;
+var currentSize = "400"; //dictates what size of disparities to show. Changed by select
+
+//these variables say which table we are displaying
+//updated on table changes, and used for image displays
+var stat = "bad200";
+var sparsity = "dense";
+var set = "test";
+var mask = "nonocc";
+var hasInvalid = false;
+var ids = "";
+var plotids = ""; //these are the ones to plot, even they are still displayed in the table
+
+//ascending keeps track of how the table is sorted for toggling
+var ascending = true;
+
+//keep track of sorting class so we can have secondary sorting
+var currentSorters = ".wtavg.rank";
+var currentSortersMode = "numeric";  //whether it's numeric or alpha
+var prevSorters = "";
+var prevSortersMode = "";
+var prevAscending;
+
+//row sort items
+var sortingRow = "0";
+var rowAscending = true;
+
+//colors for the different series
+var chartColors = [];
+//var chartColors = ["red", "blue", "green", "magenta", "cyan", "yellow"];
+
+//which rows are checked (their ids, comma separated)
+var checkedRows;
+
+//constants saying how many you can check in order to make a plot
+var NCHECKS_MIN = 1;
+var NCHECKS_MAX = 1000;
+
+function change_document(d)
+{
+  //change_document will update currentDocument and hang the appropriate events
+  currentDocument = d;
+  hangViewerEvents(d);
+}
+
+function get_error_image_name()
+{
+  //returns the error image filename based on global variables (sparsity etc)
+  var basename;
+  if (stat == "bad050")
+  {
+    basename="err0.5";
+  }
+  else if (stat == "bad100")
+  {
+    basename="err1.0";
+  }
+  else if (stat == "bad200")
+  {
+    basename="err2.0";
+  }
+  else if (stat == "bad400")
+  {
+    basename="err4.0";
+  }
+  else
+
+  {
+    basename="err";
+  }
+
+  var sparseSuffix;
+  if (sparsity == "sparse")
+  {
+    sparseSuffix = "_s";
+  }
+  else
+  {
+    sparseSuffix = "";
+  }
+
+  var maskSuffix;
+  if (mask == "all")
+  {
+    maskSuffix = "all";
+  }
+  else if (mask == "nonocc")
+  {
+    maskSuffix = "nocc";
+  }
+
+  return basename + sparseSuffix + "-" + maskSuffix;
+}
+
+function show_selected()
+{
+  //updates view finder and plot with selected cell if it exists
+  var scell = $("#stereoTable > tbody .selected").first(); //selectedCell
+  if (scell.length != 0)
+  {
+    view_cell(scell);
+  }
+
+}
+
+function update_imgViewer(newsrc)
+{
+  //instead of updating img viewer, update loadingImg
+  //then, once loadingImg is safely loaded, it will be transferred
+  
+  //this prevents the blank space caused while images are loading
+  $("#loadingImg", currentDocument).attr("src", newsrc);
+}
+
+//similar with error images
+function update_errorImgViewer(newsrc)
+{
+  //change the src by loading it in loadingErrorImg first (it will then be transferred)
+  //if the load event is not going to be triggered (like the src is not changing) then make sure it is visible (it might not be if they were just mousing im0, im1, or GT)
+  if ($("#errorImgViewer").attr("src") != newsrc)
+  {
+    $("#loadingErrorImg", currentDocument).attr("src", newsrc);
+  }
+  else
+  {
+    $("#viewerErrorTitle,#errorImgViewer", currentDocument).css("display", "block");
+  }
+}
+
+function clear_algInfo(str)
+{
+  //make algInfo blank
+  $("#algInfo", currentDocument).children().hide();
+}
+
+function update_algInfo(algID)
+{
+  //put some info into the algInfo field
+
+  //get the information from stereoTable
+  var row = $("#stereoTable > tbody > tr[ref=" + algID + "]");
+
+  var algName = row.children("td.algName").text();
+  var reference = row.children("td.reference").html();
+  reference = reference.replace(/\n/g, "<br>");
+  var description = row.children("td.description").html();
+  description = description.replace(/\n/g, "<br>");
+  var parameters = row.children("td.parameters").html();
+  parameters = parameters.replace(/\n/g, "<br>");
+  var environment = row.children("td.environment").html();
+
+  clear_algInfo();
+
+  //always show the reference
+  $("#referenceTitle").html("Reference (" + algName + ")");
+  $("#reference,#referenceTitle", currentDocument).show();
+  $("#reference", currentDocument).html(reference);
+
+  //show more if it's defined
+  if (description != "")
+  {
+    $("#description,#descriptionTitle", currentDocument).show();
+    $("#description", currentDocument).html(description);
+  }
+  if (parameters != "")
+  {
+    $("#parameters,#parametersTitle", currentDocument).show();
+    $("#parameters", currentDocument).html(parameters);
+  }
+  if (environment != "")
+  {
+    $("#environment,#environmentTitle", currentDocument).show();
+    $("#environment", currentDocument).html(environment);
+  }
+  
+}
+
+function update_imgTitle_plain(str)
+{
+  //verbatin update the viewerImgTitle
+  $("#viewerImgTitle", currentDocument).html(str);
+}
+
+function update_imgTitle(alg, resolution, dataset)
+{
+  //update the image title with an algName and dataset
+  str = alg + " (" + resolution + ") " + dataset + " disparities";
+  update_imgTitle_plain(str)
+}
+
+function update_errorImgTitle_plain(str)
+{
+  $("#viewerErrorTitle", currentDocument).html(str); 
+}
+
+function update_errorImgTitle()
+{
+  //update the error image title based on global variables
+  if (stat == "bad050")
+  {
+    $("#viewerErrorTitle", currentDocument).html("bad 0.5 error"); 
+  }
+  else if (stat == "bad100")
+  {
+    $("#viewerErrorTitle", currentDocument).html("bad 1.0 error"); 
+  }
+  else if (stat == "bad200")
+  {
+    $("#viewerErrorTitle", currentDocument).html("bad 2.0 error"); 
+  }
+  else if (stat == "bad400")
+  {
+    $("#viewerErrorTitle", currentDocument).html("bad 4.0 error"); 
+  }
+  else
+  {
+    $("#viewerErrorTitle", currentDocument).html("Signed error");
+  }
+}
+
+function image_exists(src)
+{
+  var http = jQuery.ajax({
+    type:"HEAD",
+    url: src,
+    async: false
+  });
+  if (http.status == 200)
+  {
+    return true;
+  }
+  return false;
+}
+
+function hangViewerEvents(doc)
+{
+  //when the cells try to update imgViewer, I send the newsrc to loadingImg instead.
+  //that's what makes these methods effective.
+
+  //in these functions I intentionally don't use jquery's hide and show because with show it assigns display:inline which looks bad
+  //on imgViewer load, get rid of the loading message
+
+  $("#imgViewer", doc).load(function()
+  {
+    //show the image (it's usually already visible, except the first time)
+    $(this).css("display", "block");
+  });
+  
+  //on loadingImg load, transfer to imgViewer
+  $("#loadingImg", doc).load(function()
+  {
+    //check if image exists here
+    $("#imgViewer", doc).attr("src", $(this).attr("src"));
+  });
+ 
+  //but if loading image didn't work, then send a not found 
+  $("#loadingImg", doc).error(function()
+  {
+    //display image not found
+    update_imgTitle_plain('Disparity image not found');
+    $("#imgViewer", doc).attr("src", "").css("display", "none");
+  });
+
+
+  //similar with errorImg
+  $("#errorImgViewer", doc).load(function()
+  {
+    $(this).css("display", "block");
+    //also reveal title
+    $("#viewerErrorTitle").show();
+  });
+
+  $("#loadingErrorImg", doc).load(function()
+  {
+    $("#errorImgViewer", doc).attr("src", $(this).attr("src"));
+  });
+
+  $("#loadingErrorImg", doc).error(function()
+  {
+    //if failed to load, print error message 
+    update_errorImgTitle_plain("Error image not found");
+    $("#errorImgViewer", doc).attr("src", "").css("display", "none");
+  });
+
+
+  $("#sizeSelect", doc).change(function()
+  {
+    var fontsize;
+    if (this.value == "small")
+    {
+      currentSize = "200";
+      fontsize = "7"; 
+    }
+    else if (this.value == "medium")
+    {
+      currentSize = "400";
+      fontsize = "14";
+    }
+    else if (this.value == "large")
+    {
+      currentSize = "600";
+      fontsize = "19";
+    }
+
+    //also update the current URL
+    var url = $("#imgViewer", doc).attr("src");
+    
+    //***200.jpg --> ***" + currentSize + ".jpg
+    var newurl = url.substr(0, url.length - 7) + currentSize + ".jpg";
+    update_imgViewer(newurl);
+
+    //preload new image sizes if we're sorting datasetCols
+    //(we wouldn't want to try preloading if we're sorting by Name)
+    if ($("#stereoTable td.sortedCell").first().is(".datasetCol"))
+    {
+      preload_images(currentSorters);
+    }
+
+    //update size of mousedinfo
+    $("#imageDiv,#loadingImg,#imgViewer,#loadingErrorImg,#errorImgViewer,#algInfo", doc)
+      .removeClass("size200")
+      .removeClass("size400")
+      .removeClass("size600")
+      .addClass("size" + currentSize);
+  });
+
+  //on popout click, make the popout
+  $("#popoutButton", doc).click(function()
+  {
+    var pwidth = Math.max(1.0*currentSize + 45, 335);
+    var pheight = 1.1*currentSize + 100;
+
+    var popout = window.open("popout.php", "popout", "width=" + pwidth + ", height=" + pheight);
+    
+    var pbody = $("body", popout.document);
+    var phead = $("head", popout.document);
+    
+    //hide the old viewport
+    $("#mousedInfo").hide();
+
+    //once the popout loads, update the document
+    //and copy old info over
+
+    $(popout).load(function()
+    {
+      $("body", popout.document).html("<div id='mousedInfo'></div>")
+      $("#mousedInfo", popout.document).html($("#mousedInfo").html()).css("position", "relative");
+      $("#popoutButton", popout.document).hide();
+      //update the current document (re-hanging viewer events)
+      change_document(popout.document);
+
+      //make sure the right size is selected
+      //iterate across the children equating the "selected" property
+      for (var i=0; i < 3; i++)
+      {
+        $("#sizeSelect", popout.document).children().eq(i).prop("selected",
+          $("#sizeSelect", document).children().eq(i).prop("selected"));
+      }
+      
+    });
+    
+    //when you click close on the popout, but before it actually destroys itself,
+    //copy everything back, and change document
+    //also display the original previously hidden viewport
+    $(popout).on('beforeunload', function()
+    {
+      //copy info
+      $("#mousedInfo", document).html($("#mousedInfo", popout.document).html());
+      //make sure the right size is selected
+      //iterate across the children equating the "selected" property
+      for (var i=0; i < 3; i++)
+      {
+        $("#sizeSelect", document).children().eq(i).prop("selected",
+          $("#sizeSelect", popout.document).children().eq(i).prop("selected"));
+      }
+
+      //unhide mousedinfo
+      $("#mousedInfo", document).show();
+
+      //re-show the popout button that we hid
+      $("#popoutButton", document).show();
+
+      //update the document (re-hanging viewer events)
+      change_document(document);
+ 
+    });
+
+  });
+}
+
+function preload_images(sorters)
+{
+  //preload images according to the sorters (passed in variable) jquery selector
+  //that means shoving them into the hiddenDiv
+
+  var hd = $("#hiddenDiv");
+  hd.empty();
+
+  $(sorters).each(function()
+  {
+    var imageLocation = $(this).attr("ref");
+    //in each image location you will find 2 images to preload
+    //the disparity map (at current density)
+    //and the error image (based on current stat)
+    //both only at the currentSize
+
+    if (sparsity == "dense")
+    {
+      hd.append("<img src=\"" + imageLocation + "/disp-" + currentSize + ".jpg\">");
+    }
+    else
+    {
+      hd.append("<img src=\"" + imageLocation + "/disp_s-" + currentSize + ".jpg\">");
+    }
+ 
+    //now the 8 error images
+    //dense
+    hd.append("<img src=\"" + imageLocation + "/" + get_error_image_name() + "-" + currentSize + ".jpg\">");
+  });
+}
+
+function mousedown_cell(c)
+{
+  //whatever should happen when I mousedown a cell
+  //useful because should also happen when I mousedown the graph
+
+  var setName = c.attr("class").split(' ')[0];
+  var isSelected = c.is(".selected");
+
+  //add or remove selected
+  $("table#stereoTable tbody .datasetCol.data,.datasetCol.rank").removeClass("selected");
+
+  if (isSelected)
+  {
+    //deselect it
+    selectedAlg = "none";
+    selectedSet = "none";
+  }
+  else
+  {
+    //select it
+    c.siblings("." + setName).andSelf().addClass("selected");
+    //save who is selected
+    selectedAlg = c.parents("tr").attr("ref");
+    selectedSet = setName; 
+  }
+
+  //display GT in imgViewer
+  var gturl = $("table#stereoTable thead td[ref=" + setName + "]").find("td.gtbutton").attr("ref") + "/disp0GT-" + currentSize + ".jpg";
+
+  update_imgViewer(gturl);    
+
+  update_imgTitle_plain("Ground truth " + setName);
+
+}
+
+function get_cell(id, set)
+{
+  //returns the cell that goes with the specified algorithm id and input set
+  return $("#stereoTable > tbody tr[ref=" + id + "]").children("td." + set);  
+}
+
+function view_cell(c)
+{
+  //put this cell's images in the viewer along with algInfo
+  var dispurl;
+  if (sparsity == "dense")
+  {
+    dispurl = c.attr("ref") + "/disp-" + currentSize + ".jpg";
+  }
+  else
+  {
+    dispurl = c.attr("ref") + "/disp_s-" + currentSize + ".jpg";
+  }
+  update_imgViewer(dispurl);
+  var errorurl = c.attr("ref") + "/" + get_error_image_name() + "-" + currentSize + ".jpg";
+  update_errorImgViewer(errorurl);
+  update_errorImgTitle();
+
+  //hang a special event that will update the image title only after the images are done loading
+
+  //set title to Loading (if there is loading to do)
+  if ($("#imgViewer").attr("src") != dispurl)
+  { 
+    update_imgTitle_plain("Loading...");
+  }
+  $("#imgViewer").off("load.makename");
+  $("#imgViewer", currentDocument).on("load.makename", function()
+  {
+    var setName = c.attr("class").split(" ")[0];
+    var algName = c.siblings(".algName").text();
+    var res = c.siblings(".resolution").text();
+    update_imgTitle(algName, res, setName);
+
+    var reference = c.siblings(".algName").attr("ref");
+    update_algInfo(c.parent().attr("ref"));
+    $(this).off("load.makename");
+  });
+}
+
+function sortTableByClass_num(table, sorters, asc)
+{
+  sortTableByClass(table, sorters, asc, "numeric");
+}
+
+function sortTableByClass_alpha(table, sorters, asc)
+{
+  sortTableByClass(table, sorters, asc, "alpha");
+}
+
+function sortTableByClass(table, sorters, asc, ctype)
+{
+  //sort the table by the specified class
+  //more precisely, sort the rows of the table so that the specified class (sorters) in each row is ascending (or descending if !asc)
+  //also adds sortedCell class to the cells
+
+  //ctype is either numeric or alpha, specifiying the sorting strategy
+
+
+  //numeric also means that there is a data cell next to each of the sorters to highlight
+  if (ctype != "numeric" && ctype != "alpha")
+  {
+    alert("Error: ctype is " + ctype);
+    return;
+  }
+
+  //find the cells with class sorters and then highlight them after unhighlighting everyone
+  table.find(".sortedCell").removeClass("sortedCell");
+  table.find(".tiebreaker").removeClass("tiebreaker");
+  if (ctype == "numeric")
+  {
+    table.find(sorters).prev().andSelf().addClass("sortedCell");  
+  }
+  else
+  {
+    table.find(sorters).addClass("sortedCell");
+  }
+  var rows = table.children('tbody').last().children('tr');
+  var invalidRows = rows.filter(".invalid");
+  var hasInvalidRows = (invalidRows.length > 0);
+  var rowArray = rows.toArray();
+  //if we have invalid rows then store them as the second element 
+  var newArray = new Array();
+  for(var i=0; i < rowArray.length - invalidRows.length; i++)
+  {
+    newArray[i] = new Array();
+    if (hasInvalidRows)
+    {
+      newArray[i][0] = rowArray[2*i];
+      newArray[i][1] = rowArray[2*i+1];
+    }
+    else
+    {
+      newArray[i][0] = rowArray[i];
+    }
+  }
+
+  rowArray = newArray;
+  
+  //sort the rows as an array with comparison function only looking at the clicked column
+  var c; //<-- the comparison function (depends on mode)
+  c = function(rowa, rowb)
+  {
+    //return the difference between the specified cell of each row
+
+    //sort by the normal row, not the invalid one
+    rowa = rowa[0];
+    rowb = rowb[0];
+
+    //will this sort ascending or descending? Answer: ascending. Why?
+    //starting with cellA means we return (+) when cellA is bigger, so the sort function will put cellB before cellA (because cellB lost)
+    //that means that big numbers end up at the end of the array, which will eventually be the bottom of the table. Small numbers are at the top. ==> ascending
+    var cellA = $(rowa).children(sorters);
+    var cellB = $(rowb).children(sorters);
+
+    var diff;
+    if (ctype == "numeric")
+    {
+      diff = parseFloat(cellA.html()) - parseFloat(cellB.html());
+    }
+    else
+    {
+      //important that this is text() instead of html() because it will strip tags like the download hyperlink
+      diff = cellA.text().toUpperCase().localeCompare(cellB.text().toUpperCase());
+    }
+
+    if (diff == 0 && prevSorters != "")
+    {
+      //we go to prevSorters for tie break
+      var secondCellA = $(cellA).siblings(prevSorters);
+      var secondCellB = $(cellB).siblings(prevSorters);
+      if (prevSortersMode == "numeric")
+      {
+        diff = parseFloat(secondCellA.html()) - parseFloat(secondCellB.html()); 
+      }
+      else
+      {
+        diff = secondCellA.html().toUpperCase().localeCompare(cellB.html().toUpperCase());
+      }
+      if (diff != 0)
+      {
+        if (prevSortersMode == "numeric")
+        {
+          secondCellA.prev().andSelf().addClass("tiebreaker");  
+          secondCellB.prev().andSelf().addClass("tiebreaker");  
+        }
+        else
+        {
+          secondCellA.addClass("tiebreaker");
+          secondCellB.addClass("tiebreaker");
+        }
+      }
+
+      if (!prevAscending)  {diff = -diff;}
+    }
+    return diff;
+  };
+
+  rowArray.sort(c);
+  //adjust for ascending
+  if (!asc)  {rowArray.reverse();}
+  
+  //update the table by re-adding the sorted rows one at a time
+  
+  //(I don't really know why, but I don't have to delete the old rows from the table)
+  //(I guess table.append() must check if a row already exists and if so delete the old one...)
+  for (var i=0; i < rowArray.length; i++)
+  {
+    table.children("tbody").last().append(rowArray[i][0]);
+    if (hasInvalidRows)
+    {
+      table.children("tbody").last().append(rowArray[i][1]);
+    }
+  }
+
+  var i=0;
+  $("#stereoTable > tbody > tr").each(function()
+  {
+    $(this).removeClass("rowA").removeClass("rowB");
+    if (i % 2 == 0)
+    {
+      $(this).addClass("rowA");
+    }
+    else
+    {
+      $(this).addClass("rowB");
+    }
+    i++;
+  });
+
+}
+
+//var colNames = new Array();
+function plot_table(rowids)
+{
+  //flot (plotting)
+  var data = new Array(); //2D array (but a little more complicated than that)
+  //data[x] is a series
+  //each series is a struct with some member variables
+  ////data[x].data = an Array (the 2nd dimension) of ordered pairs [x,y]
+  ////data[x].color = string, color name
+  ////data[x].points = struct with info about how to style points
+  ////data[x].lines = struct with info about how to style lines
+
+  var idsa = rowids.split(",");
+  var data = new Array();
+  var ymax = -1;
+
+  for (var i=0; i < idsa.length; i++)
+  {
+    //find the row to go with that id
+    var tr = $("#stereoTable tr[ref=" + idsa[i] + "]").not(".invalid");
+    var index = tr.index();
+    
+    //the box might have been unchecked (even though it's still in ids array)
+    //so double check that
+
+    if (tr.find("input:checkbox").prop("checked"))
+    {
+      var series = new Array();
+      series.data = new Array();
+      series.label = tr.children("td.algName").first().text() + " (" + tr.children("td.resolution").first().text() + ")";
+      var j=1;
+      tr.children("td.data.datasetCol").each(function()
+      {
+        var f = parseFloat($(this).text());
+        //check for ymin and ymax
+        if (f > ymax)  {ymax = f;}
+        series.data.push([j, parseFloat($(this).text())]);
+        j++;
+      });
+
+      if (i < chartColors.length)
+      {
+        series.color = chartColors[i];
+      }
+      series.points = {show:true, radius:3};
+      series.lines = {show:true, lineWidth:2};
+      data.push(series);
+    }
+  }
+  ymax *= 1.05;
+  
+  var prefs =
+  {
+    xaxis: {min:0.5, max:15.5, showMinorTicks:false},
+    yaxis: {min:0, max:ymax, showMinorTicks:false},
+    grid:  {borderWidth:1, hoverable:true, clickable:true, mouseActiveRadius:60},
+    legend: {show:true, position:"nw"}
+  };
+
+  //populate prefs.ticks
+  var ticks = new Array();
+  var j = 1;
+  $("#stereoTable thead td.dataSetHeader").each(function()
+  {
+    var s = $(this).text();
+    ticks.push([j, s]);
+    j++;
+  });
+  prefs.xaxis.ticks = ticks;
+
+  return $.plot($("#flotDiv"), data, prefs);
+}
+
+function hang_flot_events()
+{
+  //hang the events on the plot
+  var previousPoint = null; //keep track of who we selected previously
+  var previousSeries = null;
+  var cell = null;
+  $("#flotDiv").bind("plothover", function(event, pos, item)
+  {
+    if (item)
+    {
+      if (!((previousPoint == item.dataIndex) && (previousSeries == item.seriesIndex))) //don't update if it's the same index and same series
+      {
+        previousPoint = item.dataIndex;
+        previousSeries = item.seriesIndex;
+  
+        $("#tooltip").remove();
+        var contents;
+        contents = item.series.label;
+        contents += "<br>";
+        contents += item.datapoint[1].toFixed(2);
+        contents += "<br>";
+        contents += colNames[item.datapoint[0]-1]; //-1 because we start at 1 for framing purposes
+  
+        $('<div id="tooltip">' + contents + '</div>').css(
+        {
+          position: 'absolute',
+          display: 'none', //so it fades in
+          top: item.pageY + 5, //offset from item
+          left: item.pageX + 5,
+        }).appendTo("body").fadeIn(200);
+
+        $("#stereoTable > tbody td.moused").removeClass("moused");
+        cell = $("#stereoTable > tbody > tr").not(".invalid").eq(item.seriesIndex).children(".datasetCol.data").eq(item.datapoint[0]-1);
+        cell.next().andSelf().addClass("moused");
+        view_cell(cell);
+      }
+    }
+    else
+    {
+      $("#stereoTable > tbody td.moused").removeClass("moused");
+      $("#tooltip").remove();
+      previousSeries = previousPoint = null;
+      cell = null;
+    }
+  });
+  
+  $("#flotDiv").bind("plotclick", function(event, pos, item)
+  {
+    if (cell != null)
+    {
+      view_cell(cell);
+    }
+  });
+
+  $("#flotDiv").mousedown(function()
+  {
+    if (cell != null)
+    {
+      mousedown_cell(cell);
+    }
+  });
+}
+
+//global variables for which cell we have selected
+var selectedAlg = "none";
+var selectedSet = "none";
+
+function initTable()
+{
+  //important function that is called whenever a new table is created (so at the very start or when any of the dimensions change)
+  //remove pre-existing events
+  $("#stereoTable").off();
+  $("#flotDiv").off();
+
+  if (ids == "") 
+  {
+    $("#flotTable").hide();
+    $("#plotToggle").attr("disabled", true);
+    $("#plotToggle").next().addClass("disabled");
+  }
+  else  
+  {
+    $("#flotTable").show();
+    $("#yaxisLabel").text($("#stereoTable > thead td.tableStat").text());
+  }
+
+  //now initialize the image viewer
+  update_errorImgTitle();
+
+  //sort by currentSorters
+  sortTableByClass($("table#stereoTable"), currentSorters, ascending, currentSortersMode);
+
+  if (sortingRow != "")
+  {
+    sort_by_row(sortingRow, rowAscending);
+  }
+
+  //find the row with id == -1 and add a class of yourMethod
+  $("table#stereoTable tr[ref='-1']").addClass("yourMethod");
+
+  //select the cell that was selected before we changed tables
+
+  //check the validity of selectedAlg and selectedSet, if they are not none
+  if (selectedAlg != "none" && selectedSet != "none")
+  {
+    //something is selected
+    //well, we THINK something is selected... it might not even be valid
+    var scell = get_cell(selectedAlg, selectedSet);
+    if (scell.length == 0)
+    {
+      //that cell doesn't exist anymore
+      selectedAlg = selectedSet = "none";
+    }
+  }
+
+  //this all has to come early so flot has a chance to initialize myPlot
+
+  //hang the event for checkboxes. I have to do this before plotting so that clicking the checkbox triggers the event
+  //when changing checkboxes, add checked to td's in that row
+  //also update plotids if necessary
+  $("input.checkName").change(function()
+  {
+    //first add "checked" class to tds in the row
+    if ($(this).prop("checked"))
+    { 
+      if (ids == "")  //if displaying everything
+      {
+        $(this).parent().parent().addClass("checked");
+      }
+    }
+    else
+    {
+      $(this).parent().parent().removeClass("checked");
+    }
+
+    //if we are in plotting mode... <= (ids != "")
+    if (ids != "")
+    {
+      //show/hide corresponding series
+      //to find this series... well they're added in the order that ids is specified
+      //so just figure out where this row is in the ids array and that's the index
+      var idsa = plotids.split(",");
+
+
+      //use ids for the index because it won't be in plotids
+      var index = ids.split(",").indexOf($(this).parent().parent().attr("ref"));
+      var checked = $(this).prop("checked");
+      if (myPlot != null)
+      {
+        var myData = myPlot.getData();
+        myData[index].lines.show = checked;
+        myData[index].points.show = checked;
+        myPlot.draw();
+      }
+    }
+
+    //re-populate plotids and count checks
+    plotids = "";
+    var nchecks = 0;
+    $("#stereoTable > tbody input.checkName:checkbox:checked").each(function()
+    {
+      nchecks += 1;
+      if (plotids == "")  { plotids += $(this).attr("ref"); }
+      else  { plotids += "," + $(this).attr("ref"); }
+    });
+
+    //disable or enable the plotToggle depending on how many methods are checked
+    //make sure never to disable it if we are in plotting mode (<= ids != "") or they can't exit plotting mode
+    if (nchecks >= NCHECKS_MIN && nchecks <= NCHECKS_MAX || ids != "")
+    {
+      $("#plotToggle").removeAttr("disabled");
+      $("#plotToggle").next().removeClass("disabled");
+    }
+    else
+    {
+      $("#plotToggle").attr("disabled", true);
+      $("#plotToggle").next().addClass("disabled");
+    }
+  });
+
+  var myPlot = null;
+  // flot (plotting)
+  if (plotids != "")
+  {
+    //check boxes with ids plotids (click to trigger event)
+    var idsa = plotids.split(",");
+    for (var i=0; i < idsa.length; i++)
+    {
+      $("#stereoTable tr[ref=" + idsa[i] + "]").not(".invalid").find("input:checkbox").click();
+    }
+
+    //only continue if we are in plotting mode <= (ids != "")
+
+    if (ids != "")
+    {
+      //reset colNames
+      colNames = new Array();
+      $("#stereoTable thead td.dataSetHeader").each(function()
+      {
+        s = $(this).text();
+        colNames.push(s);
+      });
+  
+      //call my plotting function
+      myPlot = plot_table(plotids);
+      //hang flot events
+      hang_flot_events();
+    }
+  }
+
+  //since selectedAlg and selectedSet might have been set to none, check them again to decide if we need to select the topleft
+
+  if (selectedAlg == "none" || selectedSet == "none")
+  {
+    //nothing is selected
+    //so select top left cell
+    selectedAlg = $("#stereoTable > tbody tr").attr("ref");
+    selectedSet = $("#stereoTable > tbody tr").first().children("td.datasetCol").first().attr("class").split(" ")[0];
+  }
+
+  //now react to selectedAlg and selectedSet (add .selected and update image viewer)
+  $("#stereoTable > tbody .algName").each(function()
+  {
+    if ($(this).parents("tr").attr("ref") == selectedAlg)
+    {
+      $(this).siblings("." + selectedSet).addClass("selected");
+    }
+  });
+
+  //put selected cell info in the viewers
+  show_selected();
+
+
+  //hanging events
+  //blink GT when I mousedown an already selected span
+  $("span.tabletype").mousedown(function()
+  {
+    if ($(this).is(".selected"))
+    {
+      var scell = $("#stereoTable > tbody .selected").first(); //selectedCell
+      if (scell.length != 0)
+      {
+        var setName = selectedSet;
+
+        //display GT in imgViewer
+        var gturl = $("table#stereoTable thead td[ref=" + setName + "]").find("td.gtbutton").attr("ref") + "/disp0GT-" + currentSize + ".jpg";
+
+        update_imgViewer(gturl);    
+
+        clear_algInfo();
+      }
+    }
+  });
+  
+  $("span.tabletype").mouseup(function()
+  {
+    //when I mouseup a tabletype span, show the selected cell if this dimension is selected
+    if ($(this).is(".selected"))
+    {
+      show_selected(); 
+    }
+  });
+
+  $("span.reset").mousedown(function()
+  {
+    //reset "button" for the sorting order
+    //now sort by weighted average with no secondary sorting
+    //row sorting is hard coded
+
+    currentSorters = ".wtavg.rank";
+    currentSortersMode = "numeric";  //whether it's numeric or alpha
+    prevSorters = "";
+    prevSortersMode = "";
+    prevAscending;
+    
+    sortingRow = "0";
+    rowAscending = true;
+
+    //first clear current sorting
+    $("table#stereoTable .sortedCell").removeClass("sortedCell");
+    $("table#stereoTable .sortingRow").removeClass("sortingRow");
+    
+    $("table#stereoTable td.rowSort").children().attr("src", "../imgs3/arrowh_blank.gif");
+    
+    //vertical sorting
+    sortTableByClass_num($("#stereoTable"), ".wtavg.rank", true);
+    $("table#stereoTable .sorter").each(function()
+    {
+      if ($(this).attr("ref") == currentSorters)
+      {
+        $(this).attr("src", "../imgs3/arrowv_down.gif");
+      }
+      else
+      {
+        $(this).attr("src", "../imgs3/arrowv_blank.gif");
+      }
+    });
+
+    //horizontal sorting
+    sort_by_row("0", true);
+
+    //re-plot
+    if (ids != "")
+    {
+      //reset colNames
+      colNames = new Array();
+      $("#stereoTable thead td.dataSetHeader").each(function()
+      {
+        s = $(this).text();
+        colNames.push(s);
+      });
+      //call my plotting function
+      myPlot = plot_table(plotids);
+    }
+
+  });
+
+  $(".algName").click(function()
+  {
+    //cache the checkbox next to it
+    var c = $(this).prev().children(".checkName");
+    //simulate clicking the checkbox
+    c.click();
+  });
+
+  $("#stereoTable > tbody > tr > td").hover(function()
+  {
+    $(this).siblings().andSelf().filter(".download").children().css("visibility", "visible");
+  }, function()
+  {
+    $(this).siblings().andSelf().filter(".download").children().css("visibility", "hidden");
+  });
+
+  function sort_by_row(rowid, ascending)
+  {
+    //sort the table by row
+    //that is, re-order the columns of the table so that in rowid the numbers are ascending (or descending if !ascending)
+    //rowid is the algID for that row
+    //and if rowid=0 then it's the default sort order (alphabetical by dataset name)
+
+    //the point of this first part is to create an array whose nth entry is the desired position of the column currently in position n
+
+    var currentHeaders = $("#stereoTable .dataSetHeader").toArray();
+
+    //initialize indices to just 0..n-1 (n = # of images)
+    var indices = [];
+    for (var i=0; i < currentHeaders.length; i++)
+    {
+      indices.push(i);
+    }
+
+    //if rowid is 0, it's not too hard to create this based on the alphabet
+    //otherwise we have to look at the row and its cells
+
+    if (rowid == "0")
+    {
+      indices.sort(function(a, b)
+      {
+        var diff = $(currentHeaders[a]).text().toUpperCase().localeCompare($(currentHeaders[b]).text().toUpperCase());
+        return diff;
+      });
+      //replace old value of sortingRow with new one
+      sortingRow = rowid; 
+    }
+    else
+    {
+      row = $("#stereoTable > tbody > tr[ref=" + rowid + "]");
+
+      //is this the same row as previous? (matters for toggling sort order)
+      var sameRow = (sortingRow == rowid);
+  
+      //update arrows
+      if (!sameRow && sortingRow != "")
+      {
+        //blank out old ones (sortingRow is the old one)
+        $("#stereoTable > tbody > tr[ref=" + sortingRow + "]").children(".rowSort").children().attr("src", "../imgs3/arrowh_blank.gif");
+      }
+
+      //update new ones
+      if (rowAscending)
+      {
+        row.children(".rowSort").children().attr("src", "../imgs3/arrowh_right.gif");
+      }
+      else
+      {
+        row.children(".rowSort").children().attr("src", "../imgs3/arrowh_left.gif");
+      }
+
+      //replace old value of sortingRow with new one
+      sortingRow = rowid; 
+
+      //update classes
+      $("#stereoTable > tbody td.datasetCol.sortingRow").removeClass("sortingRow");
+      row.children(".datasetCol").addClass("sortingRow");
+
+      //do the sorting
+      //this is a little complicated. We get the data cells for that row, then make this indices array which says how those columns should be ordered. So entry i tells you where column i should actually go.
+      //I then use this indices array to re-order the cells in all the rows as well as the thead
+
+      var theseDataCols = row.children(".datasetCol.data").toArray();
+      var theseRankCols = row.children(".datasetCol.rank").toArray();
+
+      //now we want indices[i] to contain the correct position of column i
+      //to accomplish that, sort indices using a custom comparator that actually returns the difference between the two columns of the special row. This has the desired effect.
+
+      indices.sort(function(indexA, indexB)
+      {
+        var cellA = $(theseDataCols[indexA]);
+        var cellB = $(theseDataCols[indexB]);
+
+        var diff = parseFloat(cellA.html()) - parseFloat(cellB.html());
+        if (!ascending)  {diff = -diff;}
+        return diff;
+      });
+    }
+
+    //now re-order the dataset cells in each row using the indices array as a guide
+    $("#stereoTable > tbody tr").each(function()
+    {
+      var dataCols = $(this).children(".datasetCol.data").toArray();
+      var rankCols = $(this).children(".datasetCol.rank").toArray();
+
+      //have to be slightly tricky here because of data and rank cells (we want them to stick together)
+      //so cols is the "merged" array, whose ith entry is column indices[i]. That way, the cells end up in the right order.
+      var cols = indices.map(function(i)
+      {
+        return [dataCols[i], rankCols[i]];
+      });
+
+      for (var i=0; i < cols.length; i++)
+      {
+        $(this).append(cols[i][0]);
+        $(this).append(cols[i][1]);
+      }
+    });
+
+    //now sort the thead
+    $("#stereoTable > thead > tr").each(function()
+    {
+      var cells = $(this).children(".datasetCol").toArray();
+      var sortedCells = indices.map(function(i)
+      {
+        return cells[i];
+      });
+      for (var i=0; i < sortedCells.length; i++)
+      {
+        $(this).append(sortedCells[i]);
+      }
+    });
+
+  }
+
+  $(".rowSort").click(function()
+  {
+    var newSortingRow = $(this).parent().attr("ref");
+
+    //is this the same row as previous? (matters for toggling sort order)
+    var sameRow = (sortingRow == newSortingRow);
+
+    //decide if we should be ascending
+    var rowAscend = !(sameRow && rowAscending);
+
+    //update global variable of which way we are going
+    rowAscending = rowAscend;
+
+    //sort
+    sort_by_row(newSortingRow, rowAscend);
+
+    //re-plot
+    if (ids != "")
+    {
+      //reset colNames
+      colNames = new Array();
+      $("#stereoTable thead td.dataSetHeader").each(function()
+      {
+        s = $(this).text();
+        colNames.push(s);
+      });
+      //call my plotting function
+      myPlot = plot_table(plotids);
+    }
+    
+  });
+
+  $(".sorter").parent().click(function()
+  {
+    $(".sorter").attr("src", "../imgs3/arrowv_blank.gif");
+
+    var sortClass = $(this).children().first().attr("ref");
+
+    //Ascending iff new column or same column but we were not ascending before
+
+    //to find out if we are on the same column, just compare the last cells of current sorted with to-be sorted (needs to be last because we also add sortedCell to prev() for data cells)
+    sameColumn = $("#stereoTable " + sortClass).last().is($("#stereoTable .sortedCell").last());
+
+    var asc = !sameColumn || (sameColumn && !ascending);
+    prevAscending = ascending;
+    ascending = asc;
+
+    if (!sameColumn && $(this).attr("ref") == "data")
+    {
+      preload_images(sortClass);
+    }
+
+    if (asc)
+    {
+      $(this).children().first().attr("src", "../imgs3/arrowv_down.gif");
+    }
+    else
+    {
+      $(this).children().first().attr("src", "../imgs3/arrowv_up.gif");
+    }
+
+    //update global variables if this is a new class
+    if (!sameColumn)
+    {
+      prevSorters = currentSorters;
+      prevSortersMode = currentSortersMode;
+      currentSorters = sortClass;
+    }
+    
+    if (sortClass == ".algName")
+    {
+      sortTableByClass_alpha($("#stereoTable"), sortClass, asc);
+      if (!sameColumn)
+      {
+        currentSortersMode = "alpha";
+      }
+    }
+    else
+    {
+      sortTableByClass_num($("#stereoTable"), sortClass, asc);
+      if (!sameColumn)
+      {
+        currentSortersMode = "numeric";
+      }
+    }
+
+  });
+
+  $(".leftbutton, .rightbutton, .gtbutton, .nonoccbutton").hover(function()
+  {
+    //when you hover over one of these cells in the thead, display the appropriate image in the viewer
+    $(this).addClass("headMoused");
+
+    //remove the possibly pending event to change the title
+    $("#imgViewer").off("load.makename");
+
+    var setName = $(this).parents(".infoTable").parent().attr("ref");
+
+    var reference = setName;
+
+    if ($(this).is(".gtbutton"))
+    {
+      reference += " Ground Truth";      
+
+      update_imgTitle_plain("Ground truth " + setName);
+      update_imgViewer($(this).attr("ref") + "/disp0GT-" + currentSize + ".jpg");
+    }
+    else if ($(this).is(".leftbutton"))
+    {
+      update_imgTitle_plain("Left View " + setName);
+      reference += " Left View";
+      update_imgViewer($(this).attr("ref") + "/im0-" + currentSize + ".jpg");
+    }
+    else if ($(this).is(".rightbutton"))
+    {
+      update_imgTitle_plain("Right View " + setName);
+      reference += " Right View";
+      update_imgViewer($(this).attr("ref") + "/im1-" + currentSize + ".jpg");
+    }
+    else if ($(this).is(".nonoccbutton"))
+    {
+      update_imgTitle_plain("Nonocc Mask " + setName);
+      reference += " Nonocc Mask";
+      update_imgViewer($(this).attr("ref") + "/mask0nocc-" + currentSize + ".jpg");
+    }
+    
+    clear_algInfo();
+
+    //one of the only times I override the function for updating viewers
+    //because of this I have to make sure I am prepared to unhide them outside the load event, just in case the SRC doesn't change and the load event goes untriggered
+    $("#viewerErrorTitle,#errorImgViewer").hide();
+
+  }, function()
+  {
+    $(this).removeClass("headMoused");
+  });
+
+  $("table#stereoTable").on("mouseleave", function()
+  {
+    //when you leave the table, show the selected cell (kind of like a default)
+    show_selected();
+  });
+
+  var sindex;  //series index of moused cell
+  var pindex;  //"point" (column) index of moused cell
+
+  $("table#stereoTable tbody .datasetCol.data,.datasetCol.rank").not(".invalid").hover(function()
+  {
+    //hovering over one of the cells should put the cell in the viewers and add the moused class
+
+    //also have to do this for the cell next to it
+    if ($(this).is(".data"))
+    {
+      $(this).next().andSelf().addClass("moused");
+    }
+    else
+    {
+      $(this).prev().andSelf().addClass("moused");
+    }
+    view_cell($(this));
+
+    //if we're plotting...
+    if (ids != "")
+    {
+      //figure out this series index and point index then highlight it
+      var idsa = plotids.split(",");
+      //use ids for the index because it won't be in plotids
+      sindex = ids.split(",").indexOf($(this).parent().attr("ref"));
+      pindex;
+      if ($(this).is(".data"))
+      {
+        pindex = $(this).parent().children(".datasetCol.data").index($(this));
+      }
+      else if ($(this).is(".rank"))
+      {
+        pindex = $(this).parent().children(".datasetCol.rank").index($(this));
+      }
+      myPlot.unhighlight();
+      if (myPlot.getData()[sindex].lines.show)
+      {
+        myPlot.highlight(sindex, pindex);
+      }
+    }
+  }, function()
+  {
+    if (ids != "")
+    {
+      //could check here that we only unhighlight if it's not the selected cell. Then it would "stick" for selected
+      myPlot.unhighlight(sindex, pindex);
+    }
+    if ($(this).is(".data"))
+    {
+      $(this).next().andSelf().removeClass("moused");
+    }
+    else
+    {
+      $(this).prev().andSelf().removeClass("moused");
+    }
+  });
+
+  $("table#stereoTable tbody > tr > td.date,td.algName,td.resolution,td.wtavg,td.checkbox").hover(function()
+  {
+    //hovering over a non-data cell should put the first cell in the viewers and also update the headers (like a default for the row)
+    //it's more important that the name updates (I shouldn't be hovering over one name but the mousedInfo hasn't updated). We just add the first image so that the header and the image don't go out of sync.
+    view_cell($(this).siblings("td.datasetCol").first());
+  }); 
+
+  $("table#stereoTable tbody .datasetCol.data,.datasetCol.rank").not(".invalid").mousedown(function()
+  {
+    //mousing down a data or rank cell (will end up showing the GT)
+    mousedown_cell($(this));
+  });
+
+  $("table#stereoTable tbody td.data,.rank").not(".invalid").mouseup(function()
+  {
+    //when mousingup the data or rank image
+    //display old image (same as hovering)
+    view_cell($(this));
+  });
+
+  //initialize the currentSorters picture
+  $("table#stereoTable .sorter").each(function()
+  {
+    if ($(this).attr("ref") == currentSorters)
+    {
+      if (ascending)
+      {
+        $(this).attr("src", "../imgs3/arrowv_down.gif");
+      }
+      else
+      {
+        $(this).attr("src", "../imgs3/arrowv_up.gif");
+      }
+    }
+  });
+}

@@ -1,0 +1,235 @@
+/* style file for vision.middlebury.edu */
+
+body { 
+  font-family: sans-serif; 
+  background: white url(imgs/shadow16-l.png) repeat-y;
+  margin: 0 0 0 15px;
+  padding: 0;
+}
+a:link, a:visited {
+  xtext-decoration: none;
+  color: #039;
+  xcolor: #09357a;  /* Pantone 294 - Midd blue - found different RGB vals:
+		      #09357a - 9, 53, 122 (new midd logo on web)
+		      #036    - 0, 51, 102 (midd web page bg)
+		      #002f5f - 0, 47,  95
+		      #0055c9 - 0, 85, 201  (totally different)
+		       
+		       */
+}
+
+a:hover {
+  xtext-decoration: underline;
+  background: #ccc;
+}
+
+div.top {
+  border-top: 1px solid #304090;  /* needed by firefox... */
+  height: 65px;
+  background: url(imgs/corner-36x70.gif) no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+div.header {
+  font-size: 110%;
+  font-weight: bold;
+  text-align: right;
+  border-width: 1px 2px;
+  border-color: #777;
+  border-style: solid dotted;
+  margin: 8px 5px 1px 25px;
+  padding: 1px 8px 2px 8px;
+}
+
+a.header:link, a.header:visited {
+  color: #304090;
+  text-decoration: none;
+  margin: 0;
+  padding: 1px 5px 2px 5px;
+}
+/* The above bottom padding of 2px should really be 3, but IE needs 2
+   since it computes the height wrong.  The fix for firefox is to use the
+   code below using a ">" selector which IE doesn't understand.  See e.g.
+   http://www.phpbuilder.com/board/archive/index.php/t-10317071.html
+*/
+div.header>a.header:link, div.header>a.header:visited, div.header>a.header:hover {
+  padding-bottom: 3px;
+}
+
+a.header:hover {
+  background: #ccc;
+  color: black;
+  text-decoration: none;
+}
+
+a.header.activeHeader:hover {
+  background: white;
+  color: #304090;
+}
+
+div.tabs {
+  font-weight: bold;
+  text-align: right;
+  color: #777;
+  margin: 0 5px 0 0;
+  padding-right: 10px;  
+}
+
+a.tab {
+  padding: 1px 5px 2px 5px;
+  text-decoration: none;
+}
+
+a.tab:link, a.tab:visited {
+  color: #777;
+}
+
+a.tab:hover {
+  background: #ccc;
+  color: black;
+  text-decoration: none;
+}
+
+a.tab.activeTab, a.tab.activeTab:hover, a.tab.activeTab:visited {
+  background: white;
+  border: solid #777;
+  border-width: 0px 1px 1px 1px;
+  padding: 2px 4px 2px 4px;
+  color: #304090;
+}
+
+div.main {
+  border-left: 1px solid #304090;
+  border-bottom: 1px solid #304090;
+  margin: 0 7px 0 0;
+  padding: 0;
+}
+
+div.titlebar { 
+  font-weight: bold;
+  padding: 4px 0;
+  xbackground: pink;
+}
+
+a.title, a.title:visited {
+  font-size: 125%;
+  background: #304090;
+  xbackground: #09357a; /* new MIDD color?? */
+  color: white;
+  text-decoration: none;
+  padding: 4px 25px;
+  xborder: 1px solid #304090;
+  xborder-bottom: 1px solid red;
+}
+
+a.title:hover {
+  background: #202b60;
+  color: #ccc;
+}
+
+a.title.activeTitle:hover {
+  background: #304090;
+  color: white;
+}
+
+span.subtab {
+  background: white url(imgs/shadow16-t2.png) repeat-x bottom;
+  color: #777;
+  padding: 4px 5px 4px 5px;
+  border: #304090 solid;
+  border-width: 0 0 1px 0;
+  xbackground: green;
+}
+
+span.lastsubtab {
+  background: url(imgs/shadow16-t2.png) repeat-x bottom;
+}
+div.titlebar>span.lastsubtab {
+  padding: 4px 0;
+}
+
+span.lastsubtab2 {
+  background: url(imgs/rightfade.png) no-repeat bottom right;
+  padding: 4px 5px 4px 5px;
+  border: #304090 solid;
+  border-width: 0 0 1px 0;
+}
+
+a.subtab {
+  background: white url(imgs/shadow16-t2.png) repeat-x bottom;
+  padding: 4px 5px 4px 5px;
+  text-decoration: none;
+  border: #304090 solid;
+  border-width: 0 0 1px 0;
+  xbackground: yellow;
+  xborder: 1px solid red;
+}
+
+a.subtab:link, a.subtab:visited {
+  color: #777;
+}
+
+a.subtab:hover {
+  background: #ccc;
+  color: black;
+  text-decoration: none;
+}
+
+a.subtab.activeSub:link, a.subtab.activeSub:hover, a.subtab.activeSub:visited {
+  background: white;
+  color: #304090;
+  border-width: 1px 1px 0 1px;
+  padding: 4px 4px 5px 4px;
+}
+
+div.content {
+  font-size: 80%;
+  xbackground-color: pink;
+  color: black;
+  margin: 1em 0 0 25px;
+  padding: 0;
+}
+
+p.authors {
+  margin: 0;
+  padding: 5px 2em 25px 2em;
+  xbackground: yellow;
+}
+
+p.cite {
+  margin: 0;
+  padding: 20px 2em 20px 2em;
+}
+
+table {
+  font-size: 100%;
+}
+
+div.lastmodified {
+  xborder-top: 1px solid #304090;
+  xborder-left: 1px solid #304090;
+  xheight: 16px;
+  font-size: 70%;
+  text-align: right;
+  padding: 3px 1em;
+  margin: 0;
+}
+
+div.floatright {
+  float: right;
+  margin: 0 0 0 30px;
+  padding: 0;
+}
+
+img.flush {
+  margin: 0;
+  padding: 0;
+}
+
+div.announce {
+  padding: 8px;
+  margin: 0 100pix 0 0;
+  background: yellow;
+  font-weight: bold;
+}

@@ -1,0 +1,85 @@
+
+function toggle_bookmark(bookmark_id, event_id, bookmark_event_number, alt_bookmark_element_id) {
+    let outer_span;
+    console.log(`Toggle Bookmark for event id: ${event_id} # ${bookmark_event_number}`);
+    if (alt_bookmark_element_id) {
+        outer_span = $("#" + alt_bookmark_element_id);
+    } else {
+        outer_span = $("#" + bookmark_id);
+    }
+
+    if (outer_span.hasClass("bookmark-set")) {
+        outer_span.removeClass("bookmark-set");
+        outer_span.find(".solid-bookmark").hide();
+        outer_span.find(".regular-bookmark").show();
+        $.ajax({
+            type: "DELETE",
+            url: `/api/miniconf/bookmarks/lookup_and_delete?event=${event_id}&number=${bookmark_event_number}`,
+            processData: false,
+            contentType: 'application/json',
+            data: null,
+            success: function (req) {
+                console.log("Successfully removed bookmark");
+            },
+            error: function (req, err) {
+                alert("Error removing bookmark, please refresh page");
+                console.log("Error processing bookmark DELETE " + err);
+            }
+        });
+    } else {
+        outer_span.addClass("bookmark-set");
+        outer_span.find(".solid-bookmark").show();
+        outer_span.find(".regular-bookmark").hide();
+        $.ajax({
+            type: "POST",
+            url: "/api/miniconf/bookmarks",
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify({event: event_id, number: bookmark_event_number}),
+            success: function (req) {
+                console.log("Successfully added bookmark");
+            },
+            error: function (req, err) {
+                alert("Error adding bookmark, please refresh page");
+                console.log("Error processing bookmark POST " + err);
+            }
+        });
+    }
+}
+
+var touchup = function(){
+    /*Get all events with the class of touch-up-date and add the correct date using the user's timezone'*/
+    var cards = $(".touchup-date");
+    var eventids = [];
+    for (const card of cards) {
+        eventid = parseInt(card.id.split("event-")[1])
+        if (!(isNaN(eventid))) {
+            eventids.push(eventid);
+        }
+    }
+
+    /*Send these eventids to get timing information.*/
+
+    var call = $.ajax({
+        url:"/virtual/touchup",
+        type:"POST",
+        data:{
+            action:"touchup-dates",
+            csrfmiddlewaretoken: csrftoken,
+            eventids: eventids,
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(errorThrown);
+        },
+        success: function(data, textStatus, xqXHR){
+            for (let k in data) {
+                let datediv = $("#touchup-date-event-" + k);
+                /*console.log(`touched up the date on event ${k}`);*/
+                datediv.html(data[k])
+            }
+        },
+
+    })
+}
+
+document.cookie = `browser_timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`;

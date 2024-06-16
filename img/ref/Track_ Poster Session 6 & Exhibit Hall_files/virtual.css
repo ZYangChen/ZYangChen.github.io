@@ -1,0 +1,908 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#editFooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+}
+
+
+#welcome-image {
+    background: url('https://media.icml.cc/Conferences/ICML2020/virtual/virtual-splash.jpg') no-repeat center;
+    background-size: cover !important;
+    background-size: 100%;
+    min-height: 300px;
+}
+
+#welcome-image-neurips-2021 {
+    background: url('https://media.neurips.cc/Conferences/NeurIPS2021/welcome-image.jpg') no-repeat center;
+    background-size: cover !important;
+    background-size: 100%;
+    min-height: 300px;
+}
+
+#welcome-image-neurips-2022 {
+    background: url('https://media.neurips.cc/Conferences/NeurIPS2022/img/welcome-image.jpg') no-repeat center;
+    background-size: cover !important;
+    background-size: 100%;
+    min-height: 300px;
+}
+
+#welcome-image-neurips-2023 {
+    background: url('https://media.neurips.cc/Conferences/NeurIPS2023/img/welcome-image.jpg') no-repeat center;
+    background-size: cover !important;
+    background-size: 100%;
+    min-height: 300px;
+}
+
+.title-centered {
+    text-align: center;
+    color: #666;
+    font-size: 2.3em;
+    width: 100%;
+}
+
+.centered {
+    text-align: center;
+}
+
+.draft-watermark {
+    position: relative;
+}
+
+.draft-watermark::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('../img/draft.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.20;
+    pointer-events: none;
+}
+
+.draft-diagonal-watermark {
+    position: relative
+}
+
+.draft-diagonal-watermark::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('../img/draft_diagonal.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.20;
+    pointer-events: none;
+}
+
+.repeat-draft-diagonal-watermark {
+    position: relative
+}
+
+.repeat-draft-diagonal-watermark::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('../img/draft_diagonal_outline.png');
+    background-repeat: repeat repeat;
+    background-size: contain;
+    background-position: left;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+/*CSS from mini-conf*/
+
+
+body a {
+    color: #2294e0;
+}
+
+body a:hover {
+    color: #2294e0;
+}
+
+h2,
+h3 {
+    font-family: "Exo";
+}
+
+
+.container a:hover {
+    text-decoration: underline;
+}
+
+.jumbotron {
+    font-family: "Exo", sans-serif;
+    background-color: rgba(236, 241, 246, 1);
+}
+
+
+#main-nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.header {
+    font: "Montserrat";
+}
+
+.pp-card {
+    font-family: "Exo";
+    box-shadow: 0 1px 2px 0 rgba(204, 204, 204, 1);
+    margin-bottom: 1em;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    background-color: white;
+}
+
+.container .bookmark-right {
+    color: green;
+    float: right;
+    position: relative;
+    left: -25px;
+    z-index: 100;
+}
+
+.bookmark-cell {
+    color: green;
+    float: right;
+    float: top;
+    /*right: 10px; !* move the bookmark to the left a few pixels *!*/
+    /*top: 0;*/
+    padding-right: 1%;
+    z-index: 100;
+}
+
+.bookmark-inline {
+    color: green;
+    /*right: 10px; !* move the bookmark to the left a few pixels *!*/
+    /*top: 0;*/
+    padding-right: 10px;
+    z-index: 100;
+}
+
+.bookmark-word {
+    color: green;
+    z-index: 100;
+}
+
+
+.pp-card-header {
+    border: 4px solid #eee;
+    height: 340px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.pp-mode-mini .pp-card-header {
+    height: 175px;
+    border: 1px solid #eee;
+}
+
+.pp-card-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 3px;
+}
+
+.pp-mode-mini .pp-card-header .card-title {
+    font-size: 17px;
+}
+
+.cards_img {
+    margin-top: 20px;
+    border-radius: 2px;
+    max-height: 130px;
+    object-fit: scale-down;
+}
+
+body .nav-pills .nav-link.active {
+    background-color: #bed972;
+}
+
+.container {
+    margin-top: 10px;
+    position: relative;
+}
+
+.card {
+    font-family: "Exo";
+}
+
+.card-header {
+    font-family: "Exo";
+    border-radius: 5px;
+}
+
+.card-header .card-title {
+    font-family: "Exo";
+}
+
+.cards.myCard {
+    display: flex;
+    flex-flow: wrap;
+    margin-left: 0;
+    box-sizing: border-box;
+}
+
+.cards {
+    margin-top: 10px;
+}
+
+.card-title {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+h2.card-title {
+    margin-top: 10px;
+    font-size: 30px;
+}
+
+h3.card-subtitle.text-muted {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.card-subtitle.text-muted {
+    text-align: center;
+    font-size: 13px;
+}
+
+.main-title {
+    font-weight: 700;
+    color: #2294e0;
+    font-family: "Exo";
+}
+
+.myAccordion {
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    padding-top: 10px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.sponsorLogo {
+    width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.slp iframe {
+    background: #fff;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* .carousel-inner .carousel-item-right.active, */
+
+/* .carousel-inner .carousel-item-next { */
+
+/*   transform: translateX(25%); */
+
+/* } */
+
+/* .carousel-inner .carousel-item-left.active, */
+
+/* .carousel-inner .carousel-item-prev { */
+
+/*   transform: translateX(-25%); */
+
+/* } */
+
+/* .carousel-inner .carousel-item-right, */
+
+/* .carousel-inner .carousel-item-left{ */
+
+/*   transform: translateX(0); */
+
+/* } */
+
+.carousel-control-prev-icon {
+    filter: invert(1);
+    transform: translateX(-200%);
+}
+
+div.anchor {
+    display: block;
+    position: relative;
+    top: -250px;
+    visibility: hidden;
+}
+
+.carousel-control-next-icon {
+    filter: invert(1);
+    transform: translateX(200%);
+}
+
+
+tr.fc-list-item {
+    cursor: pointer;
+}
+
+.details {
+    font-family: "Exo", sans-serif;
+}
+
+#abstractExample.collapse:not(.show) {
+    display: block;
+
+    /* height = lineheight * no of lines to display */
+    height: 4.5em;
+    overflow: hidden;
+}
+
+#abstractExample.collapsing {
+    height: 4.5em;
+}
+
+#absShow.collapsed::after {
+    content: "+ Show More";
+}
+
+#absShow:not(.collapsed)::after {
+    content: "- Show Less";
+}
+
+body .carousel-control-next,
+body .carousel-control-prev {
+    width: 5%;
+}
+
+.icon_video,
+.icon_cal {
+    fill: #6c757d;
+}
+
+.icon_video:hover,
+.icon_cal:hover {
+    fill: #000;
+}
+
+.checkbox-bookmark {
+    color: #ddd;
+    font-size: 18pt;
+    font-weight: bold;
+    cursor: pointer;
+    transition-duration: 100ms;
+}
+
+.checkbox-paper {
+    opacity: 0.2;
+    color: rgb(128, 128, 128);
+    font-size: 18pt;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.checkbox-paper.selected, .checkbox-bookmark.selected {
+    opacity: 1;
+    color: green;
+}
+
+@supports (-webkit-text-stroke: 1px rgb(128,128,128)) {
+    .checkbox-paper {
+        opacity: 0.2;
+        -webkit-text-stroke: 1px rgb(128, 128, 128);
+        -webkit-text-fill-color: white;
+    }
+
+    .checkbox-paper.selected {
+        opacity: 1;
+        -webkit-text-fill-color: green;
+    }
+}
+
+.public-chat-box {
+    margin: 10px;
+    border: 1px solid rgba(221, 221, 221, 1);
+    padding: 8px;
+    box-shadow: 2px 2px 10px 0px rgba(204, 204, 204, 1);
+}
+
+.public-chat-title-box {
+    margin-bottom: 0px;
+    padding: 10px;
+    text-align: center;
+    background-color: rgba(0, 114, 188, 1);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.public-chat-title-box .fa-expand {
+    color: #fff;
+}
+
+
+.keyword-link {
+    display: inline !important;
+}
+
+.kw_list_item {
+    font-size: 9pt;
+    margin: 1pt;
+}
+
+.workshopevent-date {
+    font-size: .8em;
+}
+
+.author-card {
+    padding: 10px;
+}
+
+.secretzoominfo {
+    border: 1px solid #777;
+    color: #777;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 3px 10px 3px 10px;
+    position: relative;
+    top: 10px;
+}
+
+.small-title {
+    color: #2394E0;
+    font-size: 1em;
+    text-align: center;
+    line-height: 1.2em;
+}
+
+.author-str {
+    color: #555;
+    font-weight: 600;
+    font-size: .8em;
+    margin: 8px 5px 15px;
+    line-height: 1.2em;
+
+}
+
+.track-schedule-card {
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #B7B7B7;
+    border-radius: 6px;
+}
+
+.daily-view-child {
+    position: relative;
+    left: 25px;
+}
+
+.headshot {
+    float: right;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.bio {
+    border: 1px solid rgba(230, 230, 230, 1);
+    border-radius: 5px;
+    background: white;
+    padding: 4%;
+    min-height: 200px;
+}
+
+.card-abstract {
+    text-align: left;
+    padding: 18px;
+}
+
+.poster-card {
+    width: 31%;
+    display: inline-block;
+    padding: 8px;
+    border: 3px solid #fff;
+    box-shadow: 2px 2px 6px #ccc;
+    margin: 1%;
+    vertical-align: top;
+    text-align: center;
+    height: 300px;
+    overflow-y: auto;
+    position: relative;
+    transition: .3s;
+}
+
+.poster-card-expanded {
+    /*width:92% !important;*/
+    /*height: auto !important;*/
+    transition: .3s;
+    overflow-y: scroll;
+}
+
+.p-card {
+    padding: 8px;
+    border: 3px solid #fff;
+    box-shadow: 2px 2px 6px #ccc;
+    vertical-align: top;
+}
+
+.poster-grid {
+    border: 1px solid red;
+    display: grid;
+    grid-gap: 40px;
+
+}
+
+.caret-bottom {
+    position: absolute;
+    bottom: 10px;
+    left: 48%;
+
+}
+
+.logo-thumbnail {
+    margin-top: 40px;
+    width: 60%;
+}
+
+.poster-thumbnail {
+    width: 80%;
+}
+
+.date-buttons {
+    font-size: .9em;
+}
+
+.font-larger {
+    font-size: 1.2em;
+}
+
+.speaker-font-size-sm {
+    font-size: .7em !important;
+}
+
+.speaker-font-size-xs {
+    font-size: .5em !important;
+}
+
+.admin {
+    color: #ef8860;
+}
+
+.search-table-bookmark {
+    padding-left: 8px;
+    position: relative;
+    top: -5px;
+}
+
+.track-pad {
+    margin: 0 5px;
+}
+
+.track-child-bookmark {
+    position: relative !important;
+    right: -10px !important;
+    top: 5px;
+    float: right;
+}
+
+.search-result-margin > td {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+tr.secondback {
+    background-color: #f6f6f6;
+}
+
+@font-face {
+    font-family: "Exo";
+    font-style: normal;
+    /* font-weight:400; */
+    font-display: swap;
+    src: url("/static/virtual/fonts/Exo-Regular.ttf") format("truetype");
+}
+
+.grid-displaycards {
+    /*display: grid;
+    row-gap: 25px;
+    column-gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 4fr));
+    justify-content: center;
+    margin:2%;*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 5%;
+}
+
+.displaycards {
+    background: #fff;
+    box-shadow: 0 2px 1px #ddd;
+    border: 1px solid #eee;
+    padding: 20px 6px 14px 6px;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+    flex: 300px;
+    margin: 15px;
+    max-width: 350px;
+}
+
+.social-img-thumb {
+    width: 80%;
+    max-height: 80px;
+    object-fit: contain;
+    margin-bottom: 25px;
+}
+
+.bump20 {
+    margin-bottom: 20px;
+}
+
+.abstract-link {
+    font-size: .8em;
+    margin-top: 15px;
+    position: relative;
+    top: -12px;
+}
+
+.abstract-display {
+    text-align: left;
+    font-size: .8em;
+    padding: 5px;
+    border: 1px solid #eee;
+    margin-bottom: 25px;
+}
+
+.abstract-section {
+    padding: 2px;
+    position: absolute;
+    bottom: -12px;
+    text-align: center;
+    width: 100%;
+}
+
+.touchup-date-div {
+    font-size: .8em;
+    margin-bottom: 10px;
+}
+
+.organizer-thumb {
+    filter: grayscale(100%);
+}
+
+.iclr-2021-hero-image {
+    background-image: url("https://media.iclr.cc/Conferences/ICLR2021/iclr-2021-hero-image.jpg");
+    background-size: cover;
+    padding: 15%;
+    margin-bottom: 30px;
+}
+
+.icml-2023-hero-image {
+    background-image: url("https://icml.cc/static/virtual/img/hawaii-icml-photo.jpeg");
+    background-size: cover;
+    padding: 15%;
+    margin-bottom: 30px;
+}
+
+.icml-2021-hero-image {
+    background-image: url("https://media.icml.cc/Conferences/ICML2021/icml-2021-hero-image.jpg");
+    background-size: cover;
+    padding: 15%;
+    margin-bottom: 30px;
+}
+
+.cvpr-2023-hero-image {
+    background-image: url("https://media.icml.cc/Conferences/CVPR2023/img/cvpr-2023-hero-image.jpg");
+    background-size: cover;
+    padding: 15%;
+    margin-bottom: 30px;
+}
+.cvpr-2024-hero-image {
+    background-image: url("https://media.icml.cc/Conferences/CVPR2024/img/homepage_image_virtual.jpg");
+    background-size: cover;
+    padding: 15%;
+    margin-bottom: 30px;
+}
+
+
+.related-events {
+    border-radius: 3px;
+
+    margin: 5px;
+}
+
+.pad20 {
+    padding: 20px;
+}
+
+.type_display_name_virtual_card {
+    font-size: .85em;
+    color: gray;
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+.page_document {
+    text-align: center;
+    width: 80%;
+    margin: 2% 20% 0% 20%;
+}
+
+.hover-anchor {
+    display: none;
+}
+
+.hover-link:hover .hover-anchor {
+    display: block;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.warning-ring {
+    box-shadow: 0px 0px 10px #ff0;
+}
+
+.danger-ring {
+    box-shadow: 0px 0px 10px #f00;
+}
+
+.success-ring {
+    box-shadow: 0px 0px 10px #080;
+}
+
+.info-ring {
+    box-shadow: 0px 0px 10px #00f;
+}
+
+.default-ring {
+    /*This is a white ring. Not useful unless the background isn't white, unlike bootstraps css classes  */
+    box-shadow: 0px 0px 10px #fff;
+}
+
+.set-timezone {
+    border: 1px solid black;
+    max-width: 440px;
+    padding: 3px;
+}
+
+
+.text-underline-hover {
+    text-decoration: none;
+}
+
+.text-underline-hover:hover {
+    text-decoration: underline;
+}
+
+.virtual-card {
+    width: 80%;
+    margin: auto;
+}
+
+.speaker_bio {
+    padding: 25px;
+}
+
+.speaker_headshot {
+    padding: 25px;
+    max-width: 300px;
+}
+
+figcaption {
+    padding-left: 25px;
+}
+
+
+table.show_bios_table {
+    border-collapse: collapse;
+    border-radius: 10px;
+    border-style: hidden; /* hide standard table (collapsed) border */
+    box-shadow: 0 0 0 1px #666; /* this draws the table border  */
+    border: 1px solid #ccc;
+}
+
+td {
+
+}
+
+
+.speaker_headshot_td {
+    width: 30%;
+}
+
+
+.keynote-box {
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 6px #ccc;
+    margin: 25px 0;
+    padding: 18px 25px 10px 25px;
+    width: 100%;
+    background: #fbfbfb;
+}
+
+.keynote-title {
+    width: 75%;
+    display: inline-block;
+}
+
+.keynote-info {
+    float: right;
+    display: inline-block;
+}
+
+.keynote-abstract {
+    font-size: .9em;
+    color: #222;
+    margin-top: 15px;
+}
+
+.keynote-time {
+    display: inline-block;
+    margin: 0 0 15px 10px;
+}
+
+.keynote-bookmark {
+    display: inline-block;
+    margin-top: -18px;
+}
+
+.speaker-box {
+    padding: 4px;
+    vertical-align: top;
+}
+
+.speaker-pic-box {
+}
+
+.speaker-pic {
+    padding: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px #ccc;
+    margin: 0 8px 4px 0;
+    width: 200px;
+    height: auto;
+}
+
+.bio-text {
+    font-style: italic;
+    font-size: .8em;
+    font-color: #666;
+    vertical-align: top;
+}
+
+.bio-divider {
+    color: #ddd;
+}

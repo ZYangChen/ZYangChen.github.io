@@ -1,7 +1,8 @@
-@article{fdn2024chen,
-  title={Feature Distribution Normalization Network for Multi-View Stereo},
+@article{chen2024feature,
+  title={Feature distribution normalization network for multi-view stereo},
   author={Chen, Ziyang and Zhao, Yang and He, Junling and Lu, Yujie and Cui, Zhongwei and Li, Wenting and Zhang, Yongjun},
   journal={The Visual Computer},
+  pages={1--13},
   year={2024},
   publisher={Springer}
 }

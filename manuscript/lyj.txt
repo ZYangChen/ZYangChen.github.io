@@ -1,0 +1,8 @@
+@article{lu2024multi,
+  title={Multi-dimensional manifolds consistency regularization for semi-supervised remote sensing semantic segmentation},
+  author={Lu, Yujie and Zhang, Yongjun and Cui, Zhongwei and Long, Wei and Chen, Ziyang},
+  journal={Knowledge-Based Systems},
+  pages={112032},
+  year={2024},
+  publisher={Elsevier}
+}

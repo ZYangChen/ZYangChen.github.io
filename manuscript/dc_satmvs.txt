@@ -1,0 +1,10 @@
+@ARTICLE{10689488,
+  author={Chen, Ziyang and Li, Wenting and Cui, Zhongwei and Zhang, Yongjun},
+  journal={IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing}, 
+  title={Surface Depth Estimation from Multi-view Stereo Satellite Images with Distribution Contrast Network}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-10},
+  keywords={Satellites;Estimation;Feature extraction;Image color analysis;Satellite images;Remote sensing;Convolutional neural networks;Surface depth estimation;Satellite stereo reconstruction;Multi-view Stereo},
+  doi={10.1109/JSTARS.2024.3457616}}

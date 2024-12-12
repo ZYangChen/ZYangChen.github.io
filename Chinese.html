@@ -220,8 +220,9 @@
             </div>
 
             <div>
-            <details><summary>其他成果</summary>
-            <ul>
+            <button class="collapsible" onclick="toggleContent()">其他成果 🫣</button>
+            <div class="content">
+                <ul>
                 <li>🚗 智能交通</li>
                 <ul>
                     <li><strong>陈子扬</strong>, 赵阳, <a href="https://orcid.org/0009-0000-7588-3088">何俊伶</a>, 卢玉杰, 崔忠伟, <a href="https://www.gzcc.edu.cn/jsjyxxgcxy/contents/3205/3569.html">李雯婷</a>, <a href="http://cs.gzu.edu.cn/2021/1210/c17588a163831/page.htm">张永军</a>✉.
@@ -262,9 +263,21 @@
                 </ul>
                 -->
             </ul>
-            </details>
-
             </div>
+
+            <script>
+                function toggleContent() {
+                    var content = document.querySelector('.content');
+                    var button = document.querySelector('.collapsible');
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                        button.innerHTML = '其他成果 🫣';
+                    } else {
+                        content.style.display = 'block';
+                        button.innerHTML = '关闭列表 🫢';
+                    }
+                }
+            </script>  
 
 
             <div>

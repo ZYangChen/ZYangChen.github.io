@@ -1,0 +1,25 @@
+
+
+
+
+
+
+
+
+// Custom_Script_Logged_Out
+window.addEventListener('Custom_Script_Logged_Out', function() {
+	//Add your script
+})
+
+
+// Custom_Script_Logged_In
+window.addEventListener('Custom_Script_Logged_In', function() {
+	//Add your script
+})
+
+
+// Custom_Script_On_Logout
+window.addEventListener('Custom_Script_On_Logout', function() {
+	//Add your script
+})
+

@@ -1,0 +1,9 @@
+@article{chen2024surface,
+  title={Surface Depth Estimation from Multi-view Stereo Satellite Images with Distribution Contrast Network},
+  author={Chen, Ziyang and Li, Wenting and Cui, Zhongwei and Zhang, Yongjun},
+  journal={IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
+  year={2024},
+  pages={17837-17845},
+  publisher={IEEE}
+}
+

@@ -1,0 +1,8 @@
+@article{wu2024distribution,
+  title={Distribution-decouple learning network: an innovative approach for single image dehazing with spatial and frequency decoupling},
+  author={Wu, Yabo and Li, Wenting and Chen, Ziyang and Wen, Hui and Cui, Zhongwei and Zhang, Yongjun},
+  journal={The Visual Computer},
+  pages={1--16},
+  year={2024},
+  publisher={Springer}
+}

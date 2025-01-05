@@ -1,0 +1,6 @@
+@article{chen2025hadamard,
+  title={Hadamard Attention Recurrent Transformer: A Strong Baseline for Stereo Matching Transformer},
+  author={Chen, Ziyang and Zhang, Yongjun and Li, Wenting and Wang, Bingshu and Wu, Yabo and Zhao, Yong and Chen, CL},
+  journal={arXiv preprint arXiv:2501.01023},
+  year={2025}
+}

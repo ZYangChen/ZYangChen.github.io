@@ -1,0 +1,626 @@
+/* This file governs the style rules for the big table */
+/* there are lots of classes involved */
+
+/* update font for everything. also height:100% helps some browser compatibility */
+body, html
+{
+  font-family: sans-serif;
+  height:100%;
+}
+
+/* the preamble is the little paragraph introducing hte table at the top of the page */
+/* don't let it be too wide because mousedInfo might overlap it */
+p#preamble
+{
+  max-width:800px;
+  font-size:13px;
+}
+
+p#preamble a
+{
+  text-decoration:underline;
+}
+
+h3#snaptitle
+{
+  font-size:21px;
+  font-weight:bold;
+  color:darkorchid;
+}
+
+p#snapnotes
+{
+  max-width:800px;
+  font-size:13px;
+}
+
+/* this is the table where the plotting and axis labels are located */
+#flotTable
+{
+  text-align:center;
+  border-collapse:collapse;
+  border:2px solid tomato;
+  background-color:whitesmoke;
+  margin-bottom:40px; /* important because the tooltip might extend down */
+}
+
+/* this is the flotTable yaxisLabel cell */
+td#yaxisLabel
+{
+  color:black;
+  font-size:16px;
+  font-weight:bold;
+  width:70px;
+}
+
+/* flotDiv is where the plotting happens. The width and height are important because the library consults them to scale the plot */
+#flotDiv
+{
+  width:750px;
+  height:350px;
+}
+
+/* styling the legend table */
+#flotDiv > div.legend > table
+{
+  border:1px solid black;
+  background-color:white;
+  opacity:0.7;
+}
+
+.legendLayer .background {
+  fill: rgba(255, 255, 255, 0.85);
+  stroke: rgba(0, 0, 0, 0.85);
+  stroke-width: 1;
+}
+
+/* styling the plot tooltip */
+#tooltip
+{
+  background-color:white;
+  opacity:0.9;
+  border:2px solid black;
+  padding:4px;
+  /* pointer events stops the tooltip from blocking the hover event on the graph under it. Doens't work in IE but it's a small thing */
+  pointer-events:none;
+}
+
+
+/* stereoTable is the big table */
+#stereoTable
+{
+  border-collapse: collapse;
+  border:3px solid black;
+}
+
+#stereoTable thead
+{
+  border-bottom:1px solid black;
+}
+
+/* styling all cells in the thead (like a default) */
+#stereoTable thead td
+{
+  text-align:center;
+  font-size:8px; /* this should always be overridden */
+  border-left:1px solid black;
+  border-right:1px solid black;
+  font-weight:bold;
+  padding:0px;
+}
+
+/* tableStat is the "type of table" cell in the upper left corner */
+#stereoTable thead td.tableStat
+{
+  font-size:10px;
+  color:steelblue;
+  border-right:0px solid black;
+}
+
+/* infoTable are those tables in the thead that say how many megapixels and ndisp and also the im0, im1, and gt buttons */
+#stereoTable thead .infoTable
+{
+  border-collapse: collapse;
+  margin-left:auto;
+  margin-right:auto; 
+  width:100%;
+}
+
+#stereoTable thead .infoTable td
+{
+  font-size:10px;
+  text-align: center;
+  font-weight:normal;
+  border-width:0px;
+}
+
+/* dataTitle are the title cells for algName, resolution, and other things that aren't dataset names (so not Adirondack or Piano) */
+#stereoTable thead .dataTitle
+{
+  font-size:13px;
+  font-weight:bold;
+}
+
+/* dataSetHeader are the names of the datasets at the top of each column */
+#stereoTable thead td.dataSetHeader
+{
+  font-size:12px;
+  padding:0px;
+  width:42px;
+}
+
+/* weightTitle is the "weight" word above Avg */
+#stereoTable thead .weightTitle
+{
+  font-size:9px;
+  font-weight: normal;
+  color:seagreen;
+}
+
+/* making the weight bars means having a blank bar that is partially filled in. unweightBar is the blank bar. weightBar is the filled part */
+#stereoTable thead .unweightBar
+{
+  height:6px;
+  width:36px;
+  border:1px solid black;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#stereoTable thead .weightBar
+{
+  /* The colored part of the weight bar */
+  /* width is left for the final styling b/c it depends */
+  height:6px;
+  background-color:seagreen;
+}
+
+/* some cells are marked hidden if they should not be seen */
+/* they're usually used to hold data that javascript eventaully puts elsewhere (there's a hidden cell for an alg's reference, for example)*/
+#stereoTable tbody td.hidden
+{
+  display:none;
+}
+
+/* rank cells are the ones that show the rank next to each number */
+#stereoTable tbody .rank
+{
+  font-size:9px;
+  color:blue;
+}
+
+/* data cells are the actual data points produced by the eval scripts */
+#stereoTable tbody .data
+{
+  text-align: center;
+  font-size:12px;
+}
+
+/* firstPlace class is assigned to data/rank pairs that have a rank=1 */
+#stereoTable tbody .firstPlace
+{
+  font-weight:bold;
+}
+
+/* algName cell has the algorithm name in it */
+#stereoTable tbody .algName
+{
+  font-size:12px;
+  color:green;
+  padding-right:0px;
+}
+
+/* the training table has <a href>s inside the algName cell */
+/* so when you hover over those apply this style */
+#stereoTable tbody .algName > a:hover
+{
+  color:blue;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* apply this when not hovering */
+/* (inherit everything, so just look like any text in that container) */
+/* by default, <a> tags have some style associated with them to make them look like hyperlinks, so this disableds that */
+a
+{
+  color:inherit;
+  text-decoration:inherit;
+  font-size:inherit;
+  font-weight:inherit;
+}
+
+/* the next fiew are pretty self explanatory fields that are there for each row */
+#stereoTable tbody .resolution
+{
+  font-size:12px;
+  text-align:center;
+}
+
+#stereoTable tbody .resolutionCode
+{
+  display:none;
+}
+
+#stereoTable tbody .date
+{
+  font-size:11px;
+}
+
+/* Hide date ranks (still need them for sorting) */
+#stereoTable tbody .date.rank
+{
+  display:none;
+}
+
+
+/* rowSort are the cells that have the rowSort buttons (arrows) in them */
+#stereoTable tbody td.rowSort
+{
+  padding:0px 0px 0px 3px;
+}
+
+/* rowSort are the cells that have the rowSort buttons (arrows) in them */
+#stereoTable
+{
+  padding:0px;
+}
+
+/* "invalid pixels"; title for the invalid cells (appears when they display invalid) */
+#stereoTable tbody td.invalidTitle
+{
+  color: brown; 
+  font-weight:bold;
+  text-align: right; 
+  font-size: 12px;
+}
+
+/* invalid are the cells that say how many invalid pixels */
+#stereoTable tbody td.invalid
+{
+  color:brown;
+  text-align:center;
+  font-size: 12px;
+}
+
+/* hiddenDiv used for preloads */
+#hiddenDiv
+{
+  display:none;
+}
+
+/* mousedInfo is the portion of the page that houses the disparity maps and algInfo. It updates based on where the mouse is */
+#mousedInfo
+{
+  position:fixed; /* doesn't move when scrolling */ 
+  right:6px;
+  top:80px; /* changed from 9px to move mousedinfo down on the page (to accomodate the top option bar) */
+  float:left;
+  text-align:center;
+  z-index:5;
+}
+
+/* portion of mousedInfo that has the algorithm metadata */
+#algInfo
+{
+  background-color:floralwhite;
+  height:157px;
+  border:1px solid black;
+  margin-bottom:10px;
+  overflow-y:auto; /* scrolling */
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  resize: vertical;
+}
+
+#algInfo.size200
+{
+  width:230px;
+}
+
+#algInfo.size400
+{
+  width:420px;
+}
+
+#algInfo.size600
+{
+  width:620px;
+}
+
+/* algInfo is made out of spans and divs. The spans are the titles and the divs are the contents. So there is a referenceTitle span and a reference div, for example. */
+#algInfo span
+{
+  text-align:center;
+  color:black;
+  font-weight:bold;
+  font-size:14px;
+  display:none;
+}
+
+#algInfo div
+{
+  text-align:left;
+  color:darkblue;
+  font-size:12px;
+  margin: 2px 5px 5px 5px;
+  display:none;
+}
+
+/* re-enable underlined hyperlinks in reference box */
+#algInfo a
+{
+  text-decoration:underline;
+}
+
+/* the title for the top image */
+#viewerImgTitle
+{
+  color:crimson;
+  background-color:white;
+  font-weight:bold;
+  border:2px solid black;
+  font-size:14px;
+}
+
+/* title for the second image */
+#viewerErrorTitle
+{
+  color:hotpink;
+  background-color:white;
+  font-weight:bold;
+  border:2px solid black;
+  font-size:14px;
+}
+
+/* this div houses two more divs that each house the images */
+#imageDiv
+{
+  background-color:rgba(255,255,255,0.5);
+  margin-left:auto;
+  margin-right:auto;
+  overflow-y:auto;
+  overflow-x:visible;
+  direction:ltr;
+  max-height:90vh;
+}
+
+/* these size classes let the div resize as they change the displayed size */
+/* the extra 22 pixels are for the scrollbar */
+#imageDiv.size200
+{
+  width:222px;
+}
+
+#imageDiv.size400
+{
+  width:422px;
+}
+
+#imageDiv.size600
+{
+  width:622px;
+}
+
+/* imgViewer is the <img> tag for the first image */
+#imgViewer
+{
+  margin-left:auto;
+  margin-right:auto;
+  border-left:2px solid black;
+  border-right:2px solid black;
+  border-bottom:2px solid black;
+}
+
+/* errorImgViewer is the <img> tag for the second image */
+#errorImgViewer
+{
+  margin-left:auto;
+  margin-right:auto;
+  border-left:2px solid black;
+  border-right:2px solid black;
+  border-bottom:2px solid black;
+}
+
+/* div containing the first <img> */
+#img1
+{
+  margin-bottom:10px; 
+}
+
+div#loading
+{
+  opacity:0.8;
+  color:black;
+  margin-top:6px;
+  font-size:19px;
+  font-weight:bold;
+  display:block;
+  text-align:center;
+}
+
+div#loading.hidden
+{
+  display:none;
+}
+
+/* div containing the second <img> */
+#img2
+{
+  margin-bottom:25px;
+}
+
+/* these size calsses are applied to the <img>s as well, but now they are the actual widths and don't include any scrollbar padding */
+.size200
+{
+  width:200px;
+}
+
+.size400
+{
+  width:400px;
+}
+
+.size600
+{
+  width:600px;
+}
+
+/* sorterCell is the sorting button (arrows) */
+#stereoTable thead td.sorterCell
+{
+  cursor:pointer;
+}
+
+/* rowA are odd rows */
+#stereoTable tbody tr.rowA > td
+{
+  background-color:#eee;
+}
+
+/* rowB are even rows */
+#stereoTable tbody tr.rowB > td
+{
+  background-color:#fff;
+}
+
+/* checked means that row has a checked checkbox */
+#stereoTable tbody tr.checked.rowA > td
+{
+  background-color: #f4f4b0;
+}
+
+/* in case we want a different highlight color */
+#stereoTable tbody tr.checked.rowB > td
+{
+  background-color: #ffffc8;
+}
+
+/* your method is applied to rows with algId=-1 */
+#stereoTable tbody tr.yourMethod > td
+{
+  background-color:tomato;
+}
+
+/* sortingRow is applied when someone clicks to sort by that row */
+/* but only to the datasetCol cells */
+#stereoTable tbody tr td.sortingRow
+{
+  background-color: #ace !important;
+}
+
+/* sortedCell is applied to cells in the appropriate column when someone clicks the top sorting buttons */
+#stereoTable tbody tr td.sortedCell
+{
+  background-color: #ace !important;
+}
+
+/* headMoused means mousing over a cell in the thead */
+/* that means the im0, im1, or gt buttons */
+#stereoTable thead tr td.headMoused
+{
+  background-color: aliceblue !important;
+}
+
+/* tiebreaker is applied to the secondary sorting cells when they break a tie */
+#stereoTable tbody tr td.tiebreaker
+{
+  /* maybe someday we will want to highlight tiebreaks */
+}
+
+/* moused is applied to datasetCol cells when mousing over them */
+#stereoTable tbody tr > td.moused
+{
+  background-color: steelblue !important;
+}
+
+/* selected means the cell was clicked */
+/* the selected cell has more significance too, like that it persists when the table changes */
+#stereoTable tbody tr td.selected
+{
+  background-color:pink !important;
+}
+
+/* datasetCol class are on all the cells that are in a data set column (like Piano or Adirondack, but not like algName or weightedAverage) */
+#stereoTable tbody td.datasetCol
+{
+  cursor: pointer;
+}
+
+/* dimensionTable is the collection of links to change the type of the table (like avgerr, rms, bad0.5, and also nonocc or all etc */
+#dimensionTable
+{
+  border-collapse:collapse;
+}
+
+/* these are the headings for the dimension (like "Set:" and "Metric:") */
+#dimensionTable span
+{
+  font-size:14px;
+  font-weight:bold;
+  color:black;
+}
+
+#dimensionTable span.dimensionHeader
+{
+  color:#00a;
+}
+
+/* these are the actual options for changing the table type (like bad0.5, rms, etc) */
+#dimensionTable span.tabletype
+{
+  cursor:pointer;
+  text-decoration:underline;
+  padding-right:5px;
+  padding-left:5px;
+}
+
+#dimensionTable span.reset
+{
+  cursor:pointer;
+  padding-left:5px;
+  padding-right:5px;
+  margin-left:5px;
+  xborder:1px dashed darkred;
+  color:darkred;
+}
+
+#dimensionTable span.reset:hover
+{
+  background: #ccc;
+}
+
+/* hovering over type selectors */
+#dimensionTable span.tabletype:not(.selected):hover
+{
+  color:black;
+  background-color:lightcoral;
+}
+
+/* selected class is applied if that is the tabletype currently being viewed */
+/* it should look different so the user knows which is being displayed */
+#dimensionTable span.tabletype.selected
+{
+  color:#00a;
+  background:#d8d8f0;
+}
+
+/* labels are those text labels for the checkboxes (like "plot selected") */
+#dimensionTable label
+{
+  color:black;
+  font-weight:bold;
+  font-size:14px;
+}
+
+/* disabled is applied to the plot selected label if not enough methods are selected */
+#dimensionTable label.disabled
+{
+  color:#AAAAAA;
+  font-weight:normal;
+}
+span.yellow
+{
+  background-color:yellow;
+}

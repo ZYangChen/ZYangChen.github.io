@@ -1,0 +1,546 @@
+/* Default css file for jemdoc. */
+
+table#tlayout {
+    border: none;
+    border-collapse: separate;
+    background: white;
+}
+
+body {
+	background: white;
+	font-family: Georgia, serif;
+	padding-bottom: 8px;
+	margin: 0;
+}
+
+#layout-menu {
+	background: #f6f6f6;
+	border: 1px solid #dddddd;
+	padding-top: 0.5em;
+	padding-left: 8px;
+	padding-right: 8px;
+	font-size: 1.0em;
+	width: auto;
+	white-space: nowrap;
+    text-align: left;
+    vertical-align: top;
+}
+
+#layout-menu td {
+	background: #f4f4f4;
+    vertical-align: top;
+}
+
+#layout-content {
+	padding-top: 0.0em;
+	padding-left: 1.0em;
+	padding-right: 1.0em;
+    border: none;
+    background: white;
+    text-align: left;
+    vertical-align: top;
+}
+
+#layout-menu a {
+	line-height: 1.5em;
+	margin-left: 0.5em;
+}
+
+tt {
+    background: #ffffdd;
+}
+
+pre, tt {
+	font-size: 90%;
+	font-family: monaco, monospace;
+}
+
+a, a > tt {
+	color: #224b8d;
+	text-decoration: none;
+}
+
+a:hover {
+	border-bottom: 1px gray dotted;
+}
+
+#layout-menu a.current:link, #layout-menu a.current:visited {
+	color: #022b6d;
+	border-bottom: 1px gray solid;
+}
+#layout-menu a:link, #layout-menu a:visited, #layout-menu a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+#layout-menu a:hover {
+	text-decoration: none;
+}
+
+div.menu-category {
+	border-bottom: 1px solid gray;
+	margin-top: 0.8em;
+	padding-top: 0.2em;
+	padding-bottom: 0.1em;
+	font-weight: bold;
+}
+
+div.menu-item {
+	padding-left: 16px;
+	text-indent: -16px;
+}
+
+div#toptitle {
+	padding-bottom: 0.2em;
+	margin-bottom: 1.5em;
+	border-bottom: 3px double gray;
+}
+
+/* Reduce space if we begin the page with a title. */
+div#toptitle + h2, div#toptitle + h3 {
+	margin-top: -0.7em;
+}
+
+div#subtitle {
+	margin-top: 0.0em;
+	margin-bottom: 0.0em;
+	padding-top: 0em;
+	padding-bottom: 0.1em;
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
+
+
+h1, h2, h3 {
+	color: #000000;
+	margin-top: 0.7em;
+	margin-bottom: 0.3em;
+	padding-bottom: 0.2em;
+	line-height: 1.0;
+	padding-top: 0.5em;
+	border-bottom: 1px solid #aaaaaa;
+}
+
+h1 {
+	font-size: 165%;
+}
+
+h2 {
+	padding-top: 0.8em;
+	font-size: 125%;
+}
+
+h2 + h3 {
+    padding-top: 0.2em;
+}
+
+h3 {
+	font-size: 110%;
+	border-bottom: none;
+}
+
+p {
+	margin-top: 0.0em;
+	margin-bottom: 0.8em;
+	padding: 0;
+	line-height: 1.3;
+}
+
+pre {
+	padding: 0;
+	margin: 0;
+}
+
+div#footer {
+	font-size: small;
+	border-top: 1px solid #c0c0c0;
+	padding-top: 0.1em;
+	margin-top: 4.0em;
+	color: #c0c0c0;
+}
+
+div#footer a {
+	color: #80a0b0;
+}
+
+div#footer-text {
+	float: left;
+	padding-bottom: 8px;
+}
+
+ul, ol, dl {
+	margin-top: 0.2em;
+	padding-top: 0;
+	margin-bottom: 0.8em;
+}
+
+dt {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+dl {
+	margin-left: 20px;
+}
+
+dd {
+	color: #222222;
+}
+
+dd > *:first-child {
+	margin-top: 0;
+}
+
+ul {
+	list-style-position: outside;
+	list-style-type: square;
+}
+
+p + ul, p + ol {
+	margin-top: -0.5em;
+}
+
+li ul, li ol {
+	margin-top: -0.3em;
+}
+
+ol {
+	list-style-position: outside;
+	list-style-type: decimal;
+}
+
+li p, dd p {
+	margin-bottom: 0.3em;
+}
+
+
+ol ol {
+	list-style-type: lower-alpha;
+}
+
+ol ol ol {
+	list-style-type: lower-roman;
+}
+
+p + div.codeblock {
+	margin-top: -0.6em;
+}
+
+div.codeblock, div.infoblock {
+	margin-right: 0%;
+	margin-top: 1.2em;
+	margin-bottom: 1.3em;
+}
+
+div.blocktitle {
+	font-weight: bold;
+	color: #cd7b62;
+	margin-top: 1.2em;
+	margin-bottom: 0.1em;
+}
+
+div.blockcontent {
+	border: 1px solid silver;
+	padding: 0.3em 0.5em;
+}
+
+div.infoblock > div.blockcontent {
+	background: #ffffee;
+}
+
+div.blockcontent p + ul, div.blockcontent p + ol {
+	margin-top: 0.4em;
+}
+
+div.infoblock p {
+	margin-bottom: 0em;
+}
+
+div.infoblock li p, div.infoblock dd p {
+	margin-bottom: 0.5em;
+}
+
+div.infoblock p + p {
+	margin-top: 0.8em;
+}
+
+div.codeblock > div.blockcontent {
+	background: #f6f6f6;
+}
+
+span.pycommand {
+	color: #000070;
+}
+
+span.statement {
+	color: #008800;
+}
+span.builtin {
+	color: #000088;
+}
+span.special {
+	color: #990000;
+}
+span.operator {
+	color: #880000;
+}
+span.error {
+	color: #aa0000;
+}
+span.comment, span.comment > *, span.string, span.string > * {
+	color: #606060;
+}
+
+@media print {
+	#layout-menu { display: none; }
+}
+
+#fwtitle {
+	margin: 2px;
+}
+
+#fwtitle #toptitle {
+	padding-left: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+#layout-content h1:first-child, #layout-content h2:first-child, #layout-content h3:first-child {
+	margin-top: -0.7em;
+}
+
+div#toptitle h1, #layout-content div#toptitle h1 {
+	margin-bottom: 0.0em;
+	padding-bottom: 0.1em;
+	padding-top: 0;
+	margin-top: 0.5em;
+	border-bottom: none;
+}
+
+img.eq {
+	padding: 0;
+	padding-left: 0.1em;
+	padding-right: 0.1em;
+	margin: 0;
+}
+
+img.eqwl {
+	padding-left: 2em;
+	padding-top: 0.6em;
+	padding-bottom: 0.2em;
+	margin: 0;
+}
+
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 2px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+    border: 1px solid gray;
+}
+
+table + table {
+    margin-top: 1em;
+}
+
+tr.heading {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+img {
+    border: none;
+}
+
+table.imgtable, table.imgtable td {
+    border: none;
+    text-align: left;
+}
+
+.paper-box {
+display: flex;
+justify-content: left;
+align-items: center;
+flex-direction: row;
+flex-wrap: wrap;
+border-bottom: 1px #efefef solid;
+padding: 2em 0 2em 0;
+}
+
+/* 1. 确保图片容器是定位基准 */
+.paper-box-image {
+    flex: 1 1 30%; /* 根据页面比例调整宽度 */
+    max-width: 400px;
+    margin-right: 20px;
+    position: relative; /* 必须设置，让 badge 相对于它定位 */
+}
+
+/* 确保内部 div 撑满 */
+.paper-box-image > div {
+    position: relative;
+    line-height: 0; /* 防止图片下方出现微小间隙 */
+}
+
+/* 2. Badge 悬浮标签样式 */
+.badge {
+    position: absolute; /* 绝对定位 */
+    top: 10px;          /* 距离顶部的距离 */
+    left: -10px;        /* 距离左侧的距离，负值可以让它稍微突出 */
+    z-index: 10;        /* 确保在图片上方 */
+    
+    /* 视觉样式 */
+    background-color: #003399; /* 经典的蓝色 */
+    color: white;
+    padding: 5px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 3. 文字区域样式 */
+.paper-box-text {
+    flex: 1 1 60%;
+    vertical-align: middle;
+}
+
+.paper-box-text p {
+    margin: 0 0 0.5em 0;
+}
+
+/* 响应式调整：手机端变成上下堆叠 */
+@media (max-width: 768px) {
+    .paper-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .paper-box-image {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    .badge {
+        left: 0; /* 移动端建议不悬出，防止切断 */
+    }
+}
+
+.gh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f8fa;
+    border: 1px solid #d1d5da;
+    border-radius: 6px;
+    padding: 3px 12px;
+    height: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #24292e;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.gh-btn:hover {
+    background-color: #eff3f6;
+    border-color: #1b1f2359;
+    text-decoration: none;
+}
+
+.gh-btn i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/* 分隔线效果 */
+.gh-text {
+    padding-right: 8px;
+    border-right: 1px solid #d1d5da;
+    margin-right: 8px;
+}
+
+.gh-star-count {
+    color: #586069;
+}
+
+.paper-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 形状与间距 */
+    padding: 3px 12px;       /* 与 Code 按钮相同的内边距 */
+    height: 24px;            /* 与 Code 按钮相同的固定高度 */
+    border-radius: 6px;      /* 与 Code 按钮相同的圆角大小 */
+    
+    /* 文字样式 */
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1;
+    
+    /* 动画 */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+/* Project 按钮的特定配色：与 Code 按钮一致 */
+.proj-btn {
+    color: #24292e;
+    background-color: #f6f8fa;
+    border-color: #d1d5da;
+    border: 1px solid #d1d5da;
+}
+
+/* 悬停效果：与 Code 按钮一致 */
+.proj-btn:hover {
+    background-color: #eff3f6;
+    border-color: #1b1f2359;
+    text-decoration: none;
+}
+
+/* 图标间距 */
+.proj-btn i {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+/* --- 实习经历样式 --- */
+.intern-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 两列布局 */
+    gap: 40px 20px;
+    margin-top: 20px;
+}
+
+.intern-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.intern-logo {
+    flex: 0 0 120px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.intern-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.intern-info p { margin: 0; font-size: 13px; }
+.intern-date { color: #666; margin-bottom: 4px !important; }

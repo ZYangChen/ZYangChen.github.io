@@ -517,7 +517,7 @@ padding: 2em 0 2em 0;
 /* --- 实习经历样式 --- */
 .intern-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 两列布局 */
+    grid-template-columns: 1fr; /* 1fr; 两列布局  */
     gap: 40px 20px;
     margin-top: 20px;
 }

@@ -43,7 +43,14 @@ body {
 
 #layout-menu a {
 	line-height: 1.5em;
-	margin-left: 0.5em;
+	margin-left: 0;
+	display: block;
+	padding: 0.35em 0.85em;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+	border: 1px solid #d9d9d9;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+	transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 
 tt {
@@ -66,7 +73,9 @@ a:hover {
 
 #layout-menu a.current:link, #layout-menu a.current:visited {
 	color: #022b6d;
-	border-bottom: 1px gray solid;
+	border: 1px solid #b9c7de;
+	background: linear-gradient(180deg, #eef4ff 0%, #dfe8f7 100%);
+	box-shadow: 0 2px 6px rgba(2, 43, 109, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 #layout-menu a:link, #layout-menu a:visited, #layout-menu a:hover {
 	color: #000000;
@@ -74,6 +83,9 @@ a:hover {
 }
 #layout-menu a:hover {
 	text-decoration: none;
+	transform: translateY(-1px);
+	background: linear-gradient(180deg, #ffffff 0%, #e7e7e7 100%);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 div.menu-category {
@@ -85,8 +97,9 @@ div.menu-category {
 }
 
 div.menu-item {
-	padding-left: 16px;
-	text-indent: -16px;
+	padding-left: 0;
+	text-indent: 0;
+	margin: 0.25em 0;
 }
 
 div#toptitle {
